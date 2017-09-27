@@ -8,3 +8,5 @@ Options :
       5.	Can change hover color, text alignment, background color of table header
       
 Note : object id is needed can get object id from debug option
+
+![](http://i.imgur.com/OUkLi.gif)
