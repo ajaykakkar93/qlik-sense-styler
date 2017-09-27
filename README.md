@@ -1,4 +1,4 @@
-# qlik-sense-styler
+# QlikSense-Sheet-Styler
 Style Qlik Sense sheets with some option which can change the look and feel of your Sheet
 Options :
       1.	Option to add background color or image
