@@ -9,4 +9,4 @@ Options :
       
 Note : object id is needed can get object id from debug option
 
-![](https://drive.google.com/file/d/0B-ENjR3SWlTJN0VXVTZuMWNOUE0/view?usp=sharing)
+![](./qlik_sense_sheet_styler.gif)
