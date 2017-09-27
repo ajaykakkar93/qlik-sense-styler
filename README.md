@@ -9,4 +9,4 @@ Options :
       
 Note : object id is needed can get object id from debug option
 
-![](http://i.imgur.com/OUkLi.gif)
+![](qlik-sense-styler/qlik sense sheet styler.gif)
