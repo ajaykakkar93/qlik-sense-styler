@@ -1,0 +1,15 @@
+{
+	"name": "QlikSense-Sheet-Styler",
+	"description": "# qlik-sense-styler\nStyle Qlik Sense sheets with some option which can change the look and feel of your Sheet\nOptions :\n1.\tOption to add background color or image\n2.\tBackground transparency\n3.\tCan change Sheet title height, text color and font size\n4.\tCan change an objects header text color, text alignment, background color ( object id is needed can get object id from debug option)\n5.\tCan change hover color, text alignment, background color of table header",
+	"type": "visualization",
+	"version": "1.0.0",
+	"icon": "extension",
+	"author": "Ajay Kakkar",
+	"homepage": "https://github.com/ajaykakkar93/qlik-sense-styler",
+	"keywords": "qlik-sense, visualization, style, styler, object styling, sheet styling, table styling, charts styling, sheet styling",
+	"license": "Open Source",
+	"repository": "https://github.com/ajaykakkar93/qlik-sense-styler",
+	"dependencies": {
+		"qlik-sense": ">=3.0.x"
+	}
+}
