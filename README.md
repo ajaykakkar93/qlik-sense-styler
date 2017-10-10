@@ -7,7 +7,8 @@ Options : <br />
       4.	Can change an objects header text color, text alignment, background color <br />
       5.	Can change hover color, text alignment, background color of table header <br />
       <br />
-Note : object id is needed can get from debug option <br />
+Note : object id is needed can get from debug option, <br />
+ This ts the <b>first version</b>, <b>second version is on its way</b> <br />
 <br />
 ![](./qlik_sense_sheet_styler.gif) <br />
 <br />
