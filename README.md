@@ -19,12 +19,14 @@ Improvements and functions added:
 <br />
 <h3>Old Version</h3>
 <br />
-![](./qlik_sense_sheet_styler.gif)
+
+![Alt Text](./qlik_sense_sheet_styler-v2.gif)
+
 <br />
 <h3>New Version</h3>
 <br />
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+![Alt Text](./qlik_sense_sheet_styler.gif)
 
 <br />
 ![](./qlik_sense_sheet_styler.gif)
