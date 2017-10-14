@@ -23,7 +23,10 @@ Improvements and functions added:
 <br />
 <h3>New Version</h3>
 <br />
+
 ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+
+<br />
 ![](./qlik_sense_sheet_styler.gif)
 <br />
 I will Add More options if possible <br />
