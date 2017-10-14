@@ -19,11 +19,11 @@ Improvements and functions added:
 <br />
 <h3>Old Version</h3>
 <br />
-![](./qlik_sense_sheet_styler.gif "1st Version")
+![](./qlik_sense_sheet_styler.gif)
 <br />
 <h3>New Version</h3>
 <br />
-![](./qlik_sense_sheet_styler-v2.gif "2nd Version")
+![](./qlik_sense_sheet_styler.gif)
 <br />
 I will Add More options if possible <br />
 Leave Comments for any Improvements in this styling extension <br />
