@@ -18,12 +18,12 @@ Improvements and functions added:
 5.    fixed filter border (by - AdamD)
 <hr />
 <h3>New Version</h3>
+<br>
 ![Alt Text](./qlik_sense_sheet_styler-v2.gif)
-
 
 <hr />
 <h3>Old Version</h3>
-
+<br>
 ![Alt Text](./qlik_sense_sheet_styler.gif)
 
 <hr>
