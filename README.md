@@ -16,6 +16,8 @@ Improvements and functions added:
 3.    Hide Header
 4.    can adjust container border
 5.    fixed filter border (by - AdamD)
+6.    Selection bar style
+7.    Tooltip css
 <hr />
 <h3>New Version</h3>
 <br>
