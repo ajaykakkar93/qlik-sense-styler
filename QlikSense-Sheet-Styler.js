@@ -1,49 +1,115 @@
-define(["qlik","ng!$q", "underscore"],
-    function(qlik,o,_) {
-	  "use strict";
-	var n = qlik.currApp();
-	
-	  var getSheetList = function() { 
+define(["qlik", "ng!$q", "underscore", "text!./style.css"],
+    function(qlik, o, _,cssContent) {
+        "use strict";
+		
+		
+		if ($('#QlikSense-Sheet-Styler').length == 0) {
+                  $("<style id='QlikSense-Sheet-Styler'>").html(cssContent).appendTo("head");
+         }
+		
+        var n = qlik.currApp();
 
-        var defer = o.defer();
+        var getSheetList = function() {
 
-        n.getAppObjectList(function(data) {
-            var sheets = [];
-            var sortedData = _.sortBy(data.qAppObjectList.qItems, function(item) {
-                return item.qData.rank;
-            });
-            _.each(sortedData, function(item) {
-                sheets.push({
-                    value: item.qInfo.qId,
-                    label: item.qMeta.title
+            var defer = o.defer();
+
+            n.getAppObjectList(function(data) {
+                var sheets = [];
+                var sortedData = _.sortBy(data.qAppObjectList.qItems, function(item) {
+                    return item.qData.rank;
                 });
+                _.each(sortedData, function(item) {
+                    sheets.push({
+                        value: item.qInfo.qId,
+                        label: item.qMeta.title
+                    });
+                });
+                return defer.resolve(sheets);
             });
-            return defer.resolve(sheets);
-        });
 
-        return defer.promise;
-    };
-	
-	
-	
-	 var sheetList = {
-        type: "string",
-        component: "dropdown",
-        label: "Select Sheet",
-        ref: "props.selectedSheet",
-        options: function() {
-            return getSheetList().then(function(items) {
-                return items;
-            });
-        }
-    };
-	
+            return defer.promise;
+        };
 
-	
+
+
+        var sheetList = {
+            type: "string",
+            component: "dropdown",
+            label: "Select Sheet",
+            ref: "props.selectedSheet",
+            options: function() {
+                return getSheetList().then(function(items) {
+                    return items;
+                });
+            }
+        };
+		
+		
+		
+// screen resizer
+
+	var sheetId = qlik.navigation.getCurrentSheetId().sheetId,
+		app = qlik.currApp(this);
+
+  	function resizeGrid(rows, cols) {
+		
+	  	app.getObject(sheetId).then(function(obj) {
+		  	obj.applyPatches([{
+					qOp: 'replace',
+				  	qPath: '/columns',
+					qValue: '"'+cols+'"'
+				},
+				{
+					qPath : '/rows',
+					qOp : 'replace',
+					qValue : '"'+rows+'"' 
+				}		 
+				],false);  
+			
+		}).then(function() {
+			app.doSave();
+		});
+  	} // end resizeGrid()
+
+
+	var input_rows = {
+		ref : "rows",
+		label : "Number of rows",
+		type : "integer",
+		defaultValue : "12"
+	};
+  
+  var input_cols = {
+		ref : "cols",
+		label	 : "Number of columns",
+		type : "integer",
+		defaultValue : "24"
+	};
+
+	var myCustomSection = {
+		// not necessary to define the type, component "expandable-items" will automatically
+		// default to "items"
+		// type: "items"
+		component : "expandable-items",
+		label : "Resizer",
+		items : {
+			header1 : {
+				type : "items",
+				label : "Screen Resizer(use carefully)",
+				items : {
+					input_rows : input_rows ,
+				  	input_cols : input_cols
+				}
+			}
+		}
+	};
+
+// exit
+
         return {
             initialProperties: {
                 listItems: [],
-				listItems2: []
+                listItems2: []
             },
             definition: {
                 type: "items",
@@ -51,7 +117,6 @@ define(["qlik","ng!$q", "underscore"],
                 items: {
                     settings: {
                         uses: "settings",
-
                         items: {
                             header1: {
                                 type: "items",
@@ -66,8 +131,9 @@ define(["qlik","ng!$q", "underscore"],
                                         label: "Debug mode", // text/label which shows in property tab 
                                         defaultValue: false // default value as its boolean it accepts true/false will not accept if a string is added
                                     },
-									sheetList: sheetList,
-                                  /*
+                                    sheetList: sheetList,
+									customSection : myCustomSection,
+                                    /*
 								  sheetid: {
                                         type: "string",
                                         label: "Sheet Id",
@@ -129,13 +195,86 @@ define(["qlik","ng!$q", "underscore"],
                                         ref: "prop.titlefontsize",
                                         defaultValue: "",
                                         expression: "optional"
-                                    }
+                                    },
+                                    seltoolbarlist: {
+                                        type: "string",
+                                        label: "Selection Toolbar Css",
+                                        ref: "prop.sel_toolbar_list_wrapper",
+                                        defaultValue: "background-color:gray;",
+                                        expression: "optional"
+                                    },
+                                    styletooltip: {
+                                        type: "string",
+                                        label: "Tooltip Css",
+                                        ref: "prop.styletooltip",
+                                        defaultValue: "background-color:gray;",
+                                        expression: "optional"
+                                    },
+                                    styletooltiptext: {
+                                        type: "string",
+                                        label: "Tooltip Text Css",
+                                        ref: "prop.styletooltiptext",
+                                        defaultValue: "background-color:gray;",
+                                        expression: "optional"
+                                    },
 
 
 
 
                                 }
                             },
+							 selectionbar: {
+							  type: "items",
+                                label: "Customization For Selection Bar",
+                                items: {
+								 	selectionbarbg: {
+                                        type: "string",
+                                        label: "SelectionBar Background color",
+                                        ref: "prop.selectionbarbg",
+                                        defaultValue: "#404b56",
+                                        expression: "optional"
+                                    },
+									selectionbarbuttonbg: {
+                                        type: "string",
+                                        label: "SelectionBar Button Background color",
+                                        ref: "prop.selectionbarbuttonbg",
+                                        defaultValue: "#404b56",
+                                        expression: "optional"
+                                    },
+									/*
+                                    selectionbarbuttoncolor: {
+                                        type: "string",
+                                        label: "SelectionBar Button color",
+                                        ref: "prop.selectionbarbuttoncolor",
+                                        defaultValue: "gray",
+                                        expression: "optional"
+                                    },
+									*/
+									selectionbartextcolor: {
+                                        type: "string",
+                                        label: "SelectionBar Text color",
+                                        ref: "prop.selectionbartextcolor",
+                                        defaultValue: "#ffffff",
+                                        expression: "optional"
+                                    },
+									selectionbaritemcolor: {
+                                        type: "string",
+                                        label: "SelectionBar Item color",
+                                        ref: "prop.selectionbaritemcolor",
+                                        defaultValue: "#ffffff",
+                                        expression: "optional"
+                                    },
+									
+									selectionbaritemhovercolor: {
+                                        type: "string",
+                                        label: "SelectionBar Item Hover color",
+                                        ref: "prop.selectionbaritemhovercolor",
+                                        defaultValue: "#404142",
+                                        expression: "optional"
+                                    },
+									
+								}
+							},
 
                             MyList: {
                                 type: "array",
@@ -146,7 +285,7 @@ define(["qlik","ng!$q", "underscore"],
                                 allowRemove: true,
                                 addTranslation: "Add Item",
                                 min: 1,
-								/*
+                                /*
                                 max: 6,
 								*/
                                 items: {
@@ -168,7 +307,7 @@ define(["qlik","ng!$q", "underscore"],
                                     },
                                     backcolor: {
                                         type: "string",
-                                        label: "Background Color",
+                                        label: "Header Background Color",
                                         ref: "bgcolor",
                                         defaultValue: "",
                                         expression: "optional"
@@ -176,27 +315,57 @@ define(["qlik","ng!$q", "underscore"],
 
                                     txtcolor: {
                                         type: "string",
-                                        label: "Text Color",
+                                        label: "Header Text Color",
                                         ref: "txtcolor",
                                         defaultValue: "",
                                         expression: "optional"
                                     },
                                     txtalin: {
                                         type: "string",
-                                        label: "Text Alignment",
+                                        label: "Header Text Alignment",
                                         ref: "txtalin",
                                         defaultValue: "",
                                         expression: "optional"
-                                    }
+                                    },
+                                    qvobjectcontentcontainerbg: {
+                                        type: "string",
+                                        label: "Content Container BG Color",
+                                        ref: "qvobjectcontentcontainerbg",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    qvobjectcontentcontainercolor: {
+                                        type: "string",
+                                        label: "Content Container Color",
+                                        ref: "qvobjectcontentcontainercolor",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    border: {
+                                        type: "string",
+                                        label: "Container border",
+                                        ref: "border",
+                                        defaultValue: "solid 1px red",
+                                        expression: "optional"
+                                    },
+									hideheader: {
+                                        ref: "hideheader",
+                                        type: "boolean", 
+                                        component: "checkbox", 
+                                        label: "Hide Header", 
+                                        defaultValue: false
+                                    },
+
+
 
                                     // end
 
 
                                 }
                             },
-							// end list
-							
-							 MyList2: {
+                            // end list
+
+                            MyList2: {
                                 type: "array",
                                 ref: "listItems2",
                                 label: "Add Style to Table",
@@ -205,7 +374,7 @@ define(["qlik","ng!$q", "underscore"],
                                 allowRemove: true,
                                 addTranslation: "Add Item",
                                 min: 1,
-								/*
+                                /*
                                 max: 6,
 								*/
                                 items: {
@@ -217,98 +386,173 @@ define(["qlik","ng!$q", "underscore"],
                                     },
 
                                     // start
-
-									 objidtable: {
-										type: "string",
-										label: "Object Id",
-										ref: "objidtable",
-										defaultValue: "",
-										expression: "optional"
-									},
-									backcolortable: {
-										type: "string",
-										label: "Background Color",
-										ref: "bgcolortable",
-										defaultValue: "",
-										expression: "optional"
-									},
-									thcolortable: {
-										type: "string",
-										label: "Text Color",
-										ref: "thcolortable",
-										defaultValue: "",
-										expression: "optional"
-									},
-									thaninetable: {
-										type: "string",
-										component: "dropdown",
-										label: "Text Alignment",
-										ref: "thalinetable",
-										options: [{
-											value: "center",
-											label: "Center"
-										}, {
-											value: "left",
-											label: "Left"
-										}, {
-											value: "right",
-											label: "Right"
-										}],
-									},
-									thhovertable: {
-										type: "string",
-										label: "Hover Color",
-										ref: "thhovertable",
-										defaultValue: "",
-										expression: "optional"
-									}
-
-                                    // end
-
+									columnwidthadjuster: {
+                                        ref: "columnwidthadjuster", // refrence/id (debug is the name)
+                                        type: "boolean", // boolean is either true/false
+                                        component: "checkbox", // callback type
+                                        label: "Column Width Adjuster", // text/label which shows in property tab 
+                                        defaultValue: false // default value as its boolean it accepts true/false will not accept if a string is added
+                                    },
+										
+                                    objidtable: {
+                                        type: "string",
+                                        label: "Object Id",
+                                        ref: "objidtable",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    backcolortable: {
+                                        type: "string",
+                                        label: "Background Color",
+                                        ref: "bgcolortable",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    thcolortable: {
+                                        type: "string",
+                                        label: "Text Color",
+                                        ref: "thcolortable",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    thaninetable: {
+                                        type: "string",
+                                        component: "dropdown",
+                                        label: "Text Alignment",
+                                        ref: "thalinetable",
+                                        options: [{
+                                            value: "center",
+                                            label: "Center"
+                                        }, {
+                                            value: "left",
+                                            label: "Left"
+                                        }, {
+                                            value: "right",
+                                            label: "Right"
+                                        }],
+                                    },
+                                    thhovertable: {
+                                        type: "string",
+                                        label: "Hover Color",
+                                        ref: "thhovertable",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+									  eventrtable: {
+                                        type: "string",
+                                        label: "Table Row Even Color",
+                                        ref: "eventrtable",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+									 
+									  oddtrtable: {
+                                        type: "string",
+                                        label: "Table Row Odd Color",
+                                        ref: "oddtrtable",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+									 
+                                    // end 
 
                                 }
                             }
-							// end list
-							
-							
+                            // end list
+
+
                         }
                     }
                 }
             },
             paint: function($element, layout) {
                 //add your rendering code here
+				
+				  if ($('#QlikSense-Sheet-Styler-fullScreen').length == 0) {
+                    var code = "<style id=QlikSense-Sheet-Styler-fullScreen'>.qv-object-QlikSense-Sheet-Styler ~ .qv-object-nav>a {display: none;}  .qv-object-QlikSense-Sheet-Styler .qv-object-nav>a {display: none;}</style>"
+                    $(code).appendTo("head");
+                }
+				
                 var countItem = layout.listItems.length;
 
-				var BackgroundTrans = layout.prop.transp,
-				imgurl = layout.prop.imgurl,
-				bgcolor = layout.prop.bodycolor,
-				enable = layout.prop.bgenable;
-				
-				var RGBAString = 'rgba(255,255,255,' + BackgroundTrans +')',
-				app = qlik.currApp(this);
-				
-				var obj = [],
+                var BackgroundTrans = layout.prop.transp,
+                    imgurl = layout.prop.imgurl,
+                    bgcolor = layout.prop.bodycolor,
+                    enable = layout.prop.bgenable;
+
+                var RGBAString = 'rgba(255,255,255,' + BackgroundTrans + ')',
+                    app = qlik.currApp(this);
+
+
+
+                //console.log(RGBAString);
+
+                var obj = [],
                     bg = [],
                     txtcolor = [],
-                    txtalin = [];
-					
-				var tablebg = [],
+                    txtalin = [],
+                    contentcontainerbg = [],
+                    contentcontainercolor = [],
+                    border = [],
+					hideheader = [],
+                    seltoolbarcolor = layout.prop.sel_toolbar_list_wrapper,
+                    styletooltip = layout.prop.styletooltip,
+                    styletooltiptext = layout.prop.styletooltiptext;
+
+                var tablebg = [],
                     tableth = [],
                     tablethaline = [],
                     tablethhover = [],
-                    table = [];
-				
-				//console.log("sheetid="+layout.props.selectedSheet);
-					console.log(layout.bgenable);
-			if(enable){
-			
-				 $("#grid-wrap").css("background-color", "" + bgcolor);
-				 $('div .qv-object-x-sheet-styler').css('background-color', '' + bgcolor);			
-			 }else{
-			 	$('.qv-panel-content.flex-row').css('background-image', 'url('+imgurl+')');
-				$('.qvt-sheet').css('background-color',RGBAString); 
+                    table = [],
+					eventrtable =[],
+					oddtrtable = [],
+					columnwidthadjuster = [];
 					
-			}
+			
+					// screen resizer
+			
+			app.getObject(sheetId).then(function(obj) {
+			  obj.getLayout().then(function(layout)  {
+				$element.find('#size').html(layout.columns);
+				$element.find('#selector').html(layout.columns);
+			  });
+			});
+		  	
+			
+			
+			
+			
+			
+			// end
+					
+					
+					
+
+                //prop.sel_toolbar_list_wrapper
+                //qv-tooltip qvt-chart-tooltip
+
+                if ($('#styleQlikSenseSheetStyler').length == 0) {
+                    //$('#styleQlikSenseSheetStyler').remove();
+                    var code = "<style id=styleQlikSenseSheetStyler'>.sel-toolbar-list-wrapper{" + seltoolbarcolor + "} .qv-tooltip{" + styletooltip + "} .qv-tp-item{" + styletooltiptext + "} .qv-tp-value{" + styletooltiptext + "} </style>"
+                    $(code).appendTo("head");
+                } else {
+                    $('#styleQlikSenseSheetStyler').remove();
+                    var code = "<style id=styleQlikSenseSheetStyler'>.sel-toolbar-list-wrapper{" + seltoolbarcolor + "} .qv-tooltip{" + styletooltip + "} .qv-tp-item{" + styletooltiptext + "} .qv-tp-value{" + styletooltiptext + "} </style>"
+                    $(code).appendTo("head");
+
+                }
+
+                //console.log("sheetid="+layout.props.selectedSheet);
+                //	console.log(layout.bgenable);
+
+                if (enable) {
+                    $("#grid-wrap").css("background-color", "" + bgcolor);
+                    $('div .qv-object-QlikSense-Sheet-Styler').css('background-color', '' + bgcolor);
+                } else {
+                    $('.qv-panel-content.flex-row').css('background-image', 'url(' + imgurl + ')');
+                    $('.qvt-sheet').css('background-color', RGBAString);
+
+                }
 
                 // sheet title container
                 $(".sheet-title-container").css("height", "" + layout.prop.titleheight);
@@ -319,15 +563,52 @@ define(["qlik","ng!$q", "underscore"],
                 $('#sheet-title').css('color', "" + layout.prop.titlecolor);
 
                 // qv-inner-object all object
-                $('.qv-inner-object').css('margin', '2px 2px');
-
-
-					var str='',details='';
-				  if (layout.debug) {
-					 str='';
+               // $('.qv-inner-object').css('margin', '2px 2px');
+				
+				
+				// selection bar css
+				
+				/*
+				layout.prop.selectionbarbg
+				layout.prop.selectionbarbuttonbg
+				layout.prop.selectionbartextcolor
+				layout.prop.selectionbaritemcolor
+				layout.prop.selectionbaritemhovercolor
+				*/
+				
+				
+				$('.qv-panel-current-selections').css('background-color', layout.prop.selectionbarbg+' !important');
+				$('.qv-panel-current-selections .buttons-end .qv-subtoolbar-button').css('background-color', layout.prop.selectionbarbuttonbg+' !important');
+				$('.qv-panel-current-selections .buttons .qv-subtoolbar-button').css('background-color', layout.prop.selectionbarbuttonbg+' !important');
+				
+				
+				$('.qv-panel-current-selections .buttons .qv-subtoolbar-button i').css('color', layout.prop.selectionbartextcolor+'');
+				$('.qv-panel-current-selections .buttons-end .qv-subtoolbar-button i').css('color', layout.prop.selectionbartextcolor+'');
+				$('.qv-panel-current-selections .no-selection').css('color', layout.prop.selectionbartextcolor+'');
+				
+				$('.qv-panel-current-selections .item').css('color', layout.prop.selectionbartextcolor+'');
+				
+			//	$('.qv-panel-current-selections .item:hover').css('background-color', layout.prop.selectionbaritemhovercolor+'');
+				
+				
+				$( ".qv-panel-current-selections .item" ).hover(
+				  function() {
+				//  alert(1);
+					$('.qv-panel-current-selections .item').css('background-color', layout.prop.selectionbaritemhovercolor+'');
+				
+				  }, function() {
+				 	$('.qv-panel-current-selections .item').css('background-color', '');
+				});
+				
+				
+				
+                var str = '',
+                    details = '';
+                if (layout.debug) {
+                    str = '';
                     app.getAppObjectList('sheet', function(reply) {
                         var sheet = '',
-                            chksheet =  layout.props.selectedSheet, //layout.prop.sheetid, // 0368fb8f-2b0b-47d4-b86a-238b831bff0b   layout.props.sheetid
+                            chksheet = layout.props.selectedSheet, //layout.prop.sheetid, // 0368fb8f-2b0b-47d4-b86a-238b831bff0b   layout.props.sheetid
                             bol = 0;
                         //alert(chksheet);
 
@@ -344,29 +625,29 @@ define(["qlik","ng!$q", "underscore"],
                                 //   str += sheet + '';
 
                                 // get object id and type
-								//console.log(value.qData);
+                                //console.log(value.qData);
                                 $.each(value.qData.cells, function(k, v) {
-                                    
+
                                     var type = v.type,
                                         name = v.name;
 
                                     //     if (type == "table") {
 
-									str+="<tr>"	
-									str+="<td>"	
-									str +=type;
-									str+="</td>"
-									//str+="<td>"	
-									app.getObjectProperties(v.name).then(function(model){
-										var t=model.properties.title;
-										console.log("Sheet Styler = type: "+type+" , title: "+t+" , obj-id: "+ name );
-										details+="Sheet Styler = type: "+type+" , title: "+t+" , obj-id: "+'<input type="text" value="' + name + '">'+"<br>";
-									});	
-									//str+="</td>"
-									str+="<td>"	
-									str += '<input type="text" value="' + name + '">';
-									str+="</td>"	
-									str+="</tr>"	
+                                    str += "<tr>"
+                                    str += "<td>"
+                                    str += type;
+                                    str += "</td>"
+                                    //str+="<td>"	
+                                    app.getObjectProperties(v.name).then(function(model) {
+                                        var t = model.properties.title;
+                                        console.log("Sheet Styler = type: " + type + " , title: " + t + " , obj-id: " + name);
+                                        details += "Sheet Styler = type: " + type + " , title: " + t + " , obj-id: " + '<input type="text" value="' + name + '">' + "<br>";
+                                    });
+                                    //str+="</td>"
+                                    str += "<td>"
+                                    str += '<input type="text" value="' + name + '">';
+                                    str += "</td>"
+                                    str += "</tr>"
 
                                     //   }
 
@@ -375,193 +656,232 @@ define(["qlik","ng!$q", "underscore"],
                         });
 
                         //	$('body').append('<hr>'+str+'<hr>');
+
+                        //	console.log('det:'+details);
+
+                        $element.html('<input type="submit" value="Resize Sheet" id="resize"><br>'+details + '<table style="  display: block; width: 90%; border: 1px solid #eee;  max-height: 320px; overflow: auto;">' + str + '</table>');
+                        $('.qv-object-QlikSense-Sheet-Styler').show();
+						
+						$('#resize').click(function(){
+						//	alert('1');
+							console.log(layout.rows+' '+layout.cols);
+							resizeGrid(layout.rows, layout.cols);
+							
+						});
 						
 						
-						//	console.log('det:'+details);
-						
-						// 
-						
-                        $element.html(details+'<table style="  display: block; width: 90%; border: 1px solid #eee;  max-height: 320px; overflow: auto;">'+str+'</table>');
-						$('.qv-object-x-sheet-styler').show();
                         //alert(str);
                     });
 
                 } else {
-                    $element.html('');
-					$element.empty();
-					$('.qv-object-x-sheet-styler').hide();
+                    // $element.html('');
+                    $element.empty();
+                    $('.qv-object-QlikSense-Sheet-Styler').hide();
                 }
-				
-				str='';
-				details='';
-					
 
-               // console.log("Total Items : " + countItem);
+                str = '';
+                details = '';
+
+                // console.log("Total Items : " + countItem);
 
                 $.each(layout.listItems, function(index, value) {
                     $.each(value, function(index, value) {
 
-							/*
-							bgcolor
-							objid 
-							txtcolor
-							txtalin
+                        /*
+                        bgcolor
+                        objid 
+                        txtcolor
+                        txtalin
+                        qvobjectcontentcontainer
+                        label
+							
+                        */
 
-							label
-							*/
-	
-						//console.log("Other Viz : "+index + ": " + value);
+                        //console.log("Other Viz : "+index + ": " + value);
+
+                        // ADD POROP
+                        if (index == 'objid') {
+                            obj.push(value);
+                        }
+                        if (index == 'bgcolor') {
+                            bg.push(value);
+                        }
+                        if (index == 'txtcolor') {
+                            txtcolor.push(value);
+                        }
+                        if (index == 'txtalin') {
+                            txtalin.push(value);
+                        }
+                        if (index == 'qvobjectcontentcontainerbg') {
+                            contentcontainerbg.push(value);
+                        }
+                        if (index == 'qvobjectcontentcontainercolor') {
+                            contentcontainercolor.push(value);
+                        }
+                        if (index == 'border') {
+                            border.push(value);
+                        }
+						if (index == 'hideheader') {
+                            hideheader.push(value);
+                        }
 						
-						// ADD POROP
-						if(index=='objid'){
-							obj.push(value);
-						}
-						if(index=='bgcolor'){
-							bg.push(value);
-						}
-						if(index=='txtcolor'){
-							txtcolor.push(value);
-						}
-						if(index=='txtalin'){
-							txtalin.push(value);
-						}
-						// end
 						
+
+                        // end
+
                     });
                 });
-				
-				
-				// for table
-				
-				 $.each(layout.listItems2, function(index, value) {
+
+
+                // for table
+
+                $.each(layout.listItems2, function(index, value) {
                     $.each(value, function(index, value) {
 
-							/*
-							objidtable
-							bgcolortable
-							thcolortable
-							thalinetable
-							thhovertable
-							*/
-	
-					//	console.log("Table : "+index + ": " + value);
+                        /*
+                        objidtable
+                        bgcolortable
+                        thcolortable
+                        thalinetable
+                        thhovertable
+                        */
+
+                        //	console.log("Table : "+index + ": " + value);
+
+                        // ADD POROP
+                        if (index == 'objidtable') {
+                            table.push(value);
+                        }
+                        if (index == 'bgcolortable') {
+                            tablebg.push(value);
+                        }
+                        if (index == 'thcolortable') {
+                            tableth.push(value);
+                        }
+                        if (index == 'thalinetable') {
+                            tablethaline.push(value);
+                        }
+                        if (index == 'thhovertable') {
+                            tablethhover.push(value);
+                        }
+						if(index == 'columnwidthadjuster'){
+							columnwidthadjuster.push(value);
+						}
 						
-						// ADD POROP
-						if(index=='objidtable'){
-							table.push(value);
+						if(index == 'eventrtable'){
+							eventrtable.push(value);
 						}
-						if(index=='bgcolortable'){
-							tablebg.push(value);
+						if(index == 'oddtrtable'){
+							oddtrtable.push(value);
 						}
-						if(index=='thcolortable'){
-							tableth.push(value);
-						}
-						if(index=='thalinetable'){
-							tablethaline.push(value);
-						}
-						if(index=='thhovertable'){
-							tablethhover.push(value);
-						}
-						// end
 						
+                        // end
+
                     });
                 });
-				
-				// end
-				
-				
-				
-				var objidtst="";
-				 $.each(obj, function(index, value) {
-					//objidtst+=value;
+
+                // end
+
+                var objidtst = "";
+                $.each(obj, function(index, value) {
+                    //objidtst+=value;
+
+					// hide header
+					
+					if(hideheader[index]){
+						$('div[tid="' + value + '"] header').hide();
+					}else{
+						$('div[tid="' + value + '"] header').show();
+					}
 					
 					
-					// object title text qv-object-title-text
+                    // object title text qv-object-title-text
                     $('div[tid="' + value + '"] .qv-object-title-text').css('color', '' + txtcolor[index]);
                     $('div[tid="' + value + '"] .qv-object-title-text').css('background-color', '' + bg[index]);
 
-				
                     // object title container qv-object-title
                     $('div[tid="' + value + '"] .qv-object-title').css('background-color', '' + bg[index]);
-                    $('div[tid="' + value + '"] .qv-object-title').css('padding-left', '' + txtalin[index] + '%');
+                    $('div[tid="' + value + '"] .qv-object-title-text').css('margin-left', '' + txtalin[index] + '%');
                     $('div[tid="' + value + '"] .qv-object-title').css('padding-right', '0px');
 
                     // header
                     $('div[tid="' + value + '"] header').css('padding', '3px');
                     $('div[tid="' + value + '"] header').css('background-color', '' + bg[index]);
 
+                    // content container
+                    $('div[tid="' + value + '"] .qv-object-content-container').css('background-color', '' + contentcontainerbg[index]);
+                    $('div[tid="' + value + '"] .qv-object-content-container').css('color', '' + contentcontainercolor[index]);
+					$('div[tid="' + value + '"] article').css('background-color', '' + contentcontainerbg[index]);
+	
+                    //console.log('div[tid="' + value + '"]'+border[index]);
+
+                    // border
+                    $('div[tid="' + value + '"]').css('border', border[index] + "");
+
+                    //qv-discrete-color-legend
+
+                    $('div[tid="' + value + '"] .qv-discrete-color-legend').css('color', '' + contentcontainercolor[index]);
+
+                    //cl-title dcl-title
+
+                    $('div[tid="' + value + '"] .dcl-title-inner').css('color', '' + contentcontainercolor[index]);
+
                     // border qvobject
 
-                    $('div[tid="' + value + '"] .qv-object-wrapper').css('border-style', 'solid');
-                    $('div[tid="' + value + '"] .qv-object-wrapper').css('border-color', '#000');
-                    $('div[tid="' + value + '"] .qv-object-wrapper').css('border-right-width', '1px');
-                    $('div[tid="' + value + '"] .qv-object-wrapper').css('border-top-width', '1px');
-                    $('div[tid="' + value + '"] .qv-object-wrapper').css('border-left-width', '1px');
-                    $('div[tid="' + value + '"] .qv-object-wrapper').css('border-bottom-width', '1px');
+                    /*
+					
+					$('div[tid="' + value + '"] .qv-object-wrapper').css({"border-style":, "border-color":"#000",
+																			"border-right-width":"1px","border-top-width":"1px",
+																			"border-left-width":"1px","border-bottom-width":"1px",
+																			"border-top-width":"1px"});
+
+					*/
+					
+					
+					
 
                     // hoverover border qvobject
                     $('div[tid="' + value + '"] .qv-object-wrapper').hover(function() {
 
-                            $(this).css('border-style', 'solid');
-                            $(this).css('border-color', '#00bfff');
-                            $(this).css('border-right-width', '1px');
-                            $(this).css('border-top-width', '1px');
-                            $(this).css('border-left-width', '1px');
-                            $(this).css('border-bottom-width', '1px');
-							$('div[tid="' + value + '"] .column-width-adjuster').css('display','none');
-							
-								// icon color
+                            //$('div[tid="' + value + '"] .qv-object-wrapper').css({hoverborder});
 
-						if($('div[tid="' + value + '"] .qv-object-nav a')){
-						//	alert(1);
-								$('div[tid="' + value + '"] .qv-object-nav a').css('background-color', '' + bg[index]);
-								$('div[tid="' + value + '"] .qv-object-nav a').css('color', '' + txtcolor[index]);
-								$('div[tid="' + value + '"] .qv-object-nav a').css('border', '2px solid ' + txtcolor[index]);
-								
-						/*	
-							if($('div[tid="' + value + '"] .zoom')){
-								
-									$('div[tid="' + value + '"] .qv-object-nav a').css('background-color', ''+ bg[index]);
-									$('div[tid="' + value + '"] .qv-object-nav a').css('color', '' + txtcolor[index]);
-									$('div[tid="' + value + '"] .qv-object-nav a').css('border', '2px');
-									$('div[tid="' + value + '"] .qv-object-nav a').css('padding', '2px');
-									$('div[tid="' + value + '"] .qv-object-nav a').css('font-size', '15px');
-									$('div[tid="' + value + '"] .qv-object-nav visible').css('height', '28px');
-									$('div[tid="' + value + '"] .qv-object-nav visible').css('margin-top', '5px');
-									
-								
-							}
-						*/
-								
-								
-						}		
+                            // icon color
 
-					// end
+                            if ($('div[tid="' + value + '"] .qv-object-nav a')) {
+                                //	alert(1);
 
+                                $('div[tid="' + value + '"] .qv-object-nav a').css('background-color', '' + bg[index]);
+                                $('div[tid="' + value + '"] .qv-object-nav a').css('color', '' + txtcolor[index]);
+                                $('div[tid="' + value + '"] .qv-object-nav a').css('border', '2px solid ' + txtcolor[index]);
+                               //a[tid="nav-menu-zoom-out"]
+							   $('div[tid="' + value + '"] a[tid="nav-menu-zoom-out"]').mousemove(function() {
+                                    if ($('div[tid="' + value + '"] a[tid="nav-menu-zoom-out"]')) {
+                                        $('div[tid="' + value + '"] .qv-object-nav a').css('background-color', '');
+                                        $('div[tid="' + value + '"] .qv-object-nav a').css('color', '' + txtcolor[index]);
+                                        $('div[tid="' + value + '"] .qv-object-nav a').css('border', '');
+                                    }
 
+                                });
+                            }
+                            // end
                         },
                         function() {
-
+                            /*
                             $(this).css('border-style', 'solid');
                             $(this).css('border-color', '#000');
                             $(this).css('border-right-width', '1px');
                             $(this).css('border-top-width', '1px');
                             $(this).css('border-left-width', '1px');
                             $(this).css('border-bottom-width', '1px');
-
+*/
 
                         });
-					
-					
-					
-					
-					
-					
-				 });
-				 
-				 // for table
-				 
-				$.each(table, function(index, value) {
+
+                });
+
+                // for table
+
+                $.each(table, function(index, value) {
 
                     $('div[tid="' + value + '"] .qv-st-header-wrapper').css("background-color", tablebg[index]);
 
@@ -569,16 +889,28 @@ define(["qlik","ng!$q", "underscore"],
 
                     $('div[tid="' + value + '"] th .qv-st-value').css("text-align", tablethaline[index]);
 
-
                     $('div[tid="' + value + '"] th').hover(function() {
                         $(this).css("background-color", tablethhover[index]);
                     }, function() {
                         $(this).css("background-color", "");
                     });
+					
+					if(columnwidthadjuster[index]){
+						$('div[tid="' + value + '"] .column-width-adjuster').css('display', 'none');
+					}else{
+						$('div[tid="' + value + '"] .column-width-adjuster').css('display', '');
+					}
+					
+					  
+					
+					$('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:even').css("background-color", eventrtable[index]);
+					$('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:odd').css("background-color", oddtrtable[index]);
+					
+					
 
                 });
-				 
-               // $element.html(objidtst);
+
+                // $element.html(objidtst);
 
             }
         };
