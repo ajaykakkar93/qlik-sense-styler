@@ -16,20 +16,20 @@ Improvements and functions added:
 3.    Hide Header
 4.    can adjust container border
 5.    fixed filter border (by - AdamD)
-<br />
-<h3>Old Version</h3>
-<br />
-
-![Alt Text](./qlik_sense_sheet_styler-v2.gif)
-
-<br />
+<hr />
 <h3>New Version</h3>
-<br />
 
 ![Alt Text](./qlik_sense_sheet_styler.gif)
 
+<hr />
+<h3>Old Version</h3>
+![Alt Text](./qlik_sense_sheet_styler-v2.gif)
+
+<hr>
+
+<hr>
+This is the second version, third version is on its way mostly by end of this month
 <br />
-![](./qlik_sense_sheet_styler.gif)
+I will Add More options if possible
 <br />
-I will Add More options if possible <br />
-Leave Comments for any Improvements in this styling extension <br />
+Leave Comments for any Improvements in this styling extension
