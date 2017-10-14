@@ -1,0 +1,56 @@
+/* CSS */
+
+/*Current selections restyling*/
+   /*
+   .qv-panel-current-selections ,.qv-panel-current-selections .buttons-end .qv-subtoolbar-button, .qv-panel-current-selections .buttons .qv-subtoolbar-button, .qv-panel-current-selections .buttons-end .qv-subtoolbar-button{
+        background-color: #E8EAEC !important;
+    }
+	
+	
+    .qv-panel-current-selections .buttons .qv-subtoolbar-button i, .qv-panel-current-selections .buttons-end .qv-subtoolbar-button i{
+        color: #838383;
+    }
+    .qv-panel-current-selections .no-selection{
+        color: #838383;
+    }
+	*/
+    .qv-panel-current-selections .buttons{
+        background: unset;
+        border: unset;
+    }
+    .qv-panel-current-selections .wrap, .qv-panel-current-selections .buttons .qv-subtoolbar-button, .qv-panel-current-selections .buttons-end .qv-subtoolbar-button{
+        border: unset;
+    }
+    .qv-panel-current-selections{
+      /*  font-family: 'Source Sans Pro', sans-serif; */
+    }
+    .qv-panel-current-selections .item{
+        font-weight: 300;
+      /*  font-family: 'Source Sans Pro', sans-serif; */
+       /* color: #838383;*/
+        font-size: 11px;
+    }
+	/*
+    .qv-panel-current-selections .item:hover{
+        color: #E8EAEC;
+    }
+	*/
+    .qv-panel-current-selections li{
+
+    }
+    .qv-panel-current-selections .remove{
+        padding-right: 5px;
+    }
+    .qv-panel-current-selections .buttons-end{
+        border-left: none;
+        box-shadow: none;
+    }
+    .qv-global-search-container{
+        z-index: 10003;
+    }
+    #dropShadow{
+        z-index: 10002;
+    }
+    .qv-panel-current-selections .item .qv-state-count-bar{
+        height: 4px;
+    }
