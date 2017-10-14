@@ -19,7 +19,10 @@ Improvements and functions added:
 <hr />
 <h3>New Version</h3>
 <br>
+<img src="./qlik_sense_sheet_styler-v2.gif" alt="2nd Version">
+
 ![Alt Text](./qlik_sense_sheet_styler-v2.gif)
+
 <hr />
 <h3>Old Version</h3>
 <br>
