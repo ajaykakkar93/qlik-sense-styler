@@ -26,8 +26,6 @@ Improvements and functions added:
 <br>
 <img src="./qlik_sense_sheet_styler.gif" alt="1st Version">
 <hr>
-
-<hr>
 This is the second version, third version is on its way mostly by end of this month
 <br />
 I will Add More options if possible
