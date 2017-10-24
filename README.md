@@ -1,14 +1,11 @@
 # qlik-sense-styler
 
-
-
-	<h2>Why Do We need CSS for styling?</h2>
-
-	<ol>
-	  <li>CSS Provides Efficiency in Design and Updates</li>
-	  <li>CSS Use Can Lead to Faster Page Downloads</li>
-	  <li>CSS is Easy to Work With</li>
-	</ol>
+<h2>Why Do We need CSS for styling?</h2>
+<ol>
+	 <li>CSS Provides Efficiency in Design and Updates</li>
+	<li>CSS Use Can Lead to Faster Page Downloads</li>
+<li>CSS is Easy to Work With</li>
+</ol>
 
  <p>     
 Color is powerful because it helps in changing the mood – the mood of prospective customers/ consumers.
@@ -17,12 +14,9 @@ Color is powerful because it helps in changing the mood – the mood of prospect
 With this extension anyone will be able to style Qlik Sense Sheet with some option which can change the look and feel of entire Application/Sheet.
 </p>
 
-
-	<h2>Third Version:</h2>
-
-	<h3>Functions added:</h3>
-
-	<ol>
+<h2>Third Version:</h2>
+<h3>Functions added:</h3>
+<ol>
 	  <li>Filter Pane Background color, Text color, count bar selected color, locked color, optional color, alternative color</li>
 	  <li>Font Style, Font Size of the Sheet HTML document (by - Prithvi)</li>
 	  <li>Simplified Property Panel and Some Bugs Solved</li>
@@ -30,17 +24,16 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	  <li>Object Transparency [example: 0.1 or 0.7] (by – dtr)</li>
 	  <li>Object Container Transparency [example: 0.1 or 0.7] (by – dtr)</li>
 	  <li>Header Font Size of  individual Objects and of table data (by - Prithvi)</li>
-	</ol>
+</ol>
 
 <h2>Bugs:</h2>
 <ol>
   <li>Selection bar style cannot be applied</li>
 </ol> 
 
-	<h2>Second Version:</h2>
-	<h3>Improvements and functions added:</h3>
-
-	<ol>
+<h2>Second Version:</h2>
+<h3>Improvements and functions added:</h3>
+<ol>
 	  <li>Table Alternate Row color (by - Tolberta14)</li>
 	  <li>Screen Resizer I suggest using 24 x 48 (by – ander0s.uddenberg)</li>
 	  <li>Hide Header</li>
@@ -48,21 +41,20 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	  <li>Fixed filter border (by - AdamD)</li>
 	  <li>Selection bar style</li>
 	  <li>Tooltip css</li>
-	</ol> 
+</ol> 
 
-	<h2>First Version:</h2>
-	<h3>Options:</h3>
-
-	<ol>
+<h2>First Version:</h2>
+<h3>Options:</h3>
+<ol>
 	  <li>Option to add background color or image </li>
 	  <li>Background transparency</li>
 	  <li>Can change Sheet title height, text color and font size</li>
 	  <li>Can change an objects header text color, text alignment, background color</li>
 	  <li>Can change hover color, text alignment, background color of the table header</li>
-	</ol> 
+</ol> 
   
 	
-	<h2>Note:</h2>
+<h2>Note:</h2>
 	<ol>
 	  <li>This Extension may not work in Qlik Sense 3.0 uses >=3.0.x</li>
 	  <li>Object ID is needed can get from debug option</li>
