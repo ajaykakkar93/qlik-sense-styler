@@ -73,7 +73,7 @@ It was a long way to make this extension as a module for qlik sense,
 Thanks everyone for giving your valuable suggestion and experience,
 </p>
 <p>
-Special Thanks to <b> <u>Clay Logix</u>, <u>Dattaram Dhuri</u> & <u>Surajbhan Chaurasia</u> </b> for their Support and experience,
+Special Thanks to <b style="color:red;"> <u>Clay Logix</u>, <u>Dattaram Dhuri</u> & <u>Surajbhan Chaurasia</u> </b> for their Support and experience,
 </p>
 <p>
 <b>I will Add More options if possible,</b>
