@@ -1,12 +1,12 @@
 define(["qlik", "ng!$q", "underscore", "text!./style.css"],
-    function(qlik, o, _,cssContent) {
+    function(qlik, o, _, cssContent) {
         "use strict";
-		
-		
-		if ($('#QlikSense-Sheet-Styler').length == 0) {
-                  $("<style id='QlikSense-Sheet-Styler'>").html(cssContent).appendTo("head");
-         }
-		
+
+
+        if ($('#QlikSense-Sheet-Styler').length == 0) {
+            $("<style id='QlikSense-Sheet-Styler'>").html(cssContent).appendTo("head");
+        }
+
         var n = qlik.currApp();
 
         var getSheetList = function() {
@@ -43,68 +43,80 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                 });
             }
         };
+
+
+        /*
 		
-		
-		
-// screen resizer
-
-	var sheetId = qlik.navigation.getCurrentSheetId().sheetId,
-		app = qlik.currApp(this);
-
-  	function resizeGrid(rows, cols) {
-		
-	  	app.getObject(sheetId).then(function(obj) {
-		  	obj.applyPatches([{
-					qOp: 'replace',
-				  	qPath: '/columns',
-					qValue: '"'+cols+'"'
-				},
-				{
-					qPath : '/rows',
-					qOp : 'replace',
-					qValue : '"'+rows+'"' 
-				}		 
-				],false);  
-			
-		}).then(function() {
-			app.doSave();
-		});
-  	} // end resizeGrid()
-
-
-	var input_rows = {
-		ref : "rows",
-		label : "Number of rows",
-		type : "integer",
-		defaultValue : "12"
-	};
-  
-  var input_cols = {
-		ref : "cols",
-		label	 : "Number of columns",
-		type : "integer",
-		defaultValue : "24"
-	};
-
-	var myCustomSection = {
-		// not necessary to define the type, component "expandable-items" will automatically
-		// default to "items"
-		// type: "items"
+		var test = {
 		component : "expandable-items",
-		label : "Resizer",
-		items : {
-			header1 : {
-				type : "items",
-				label : "Screen Resizer(use carefully)",
-				items : {
-					input_rows : input_rows ,
-				  	input_cols : input_cols
-				}
-			}
-		}
-	};
+		label : "Filterpane Styling",
+			items : {
 
-// exit
+			}
+		};
+		
+		*/
+
+
+        // screen resizer
+
+        var sheetId = qlik.navigation.getCurrentSheetId().sheetId,
+            app = qlik.currApp(this);
+
+        function resizeGrid(rows, cols) {
+
+            app.getObject(sheetId).then(function(obj) {
+                obj.applyPatches([{
+                        qOp: 'replace',
+                        qPath: '/columns',
+                        qValue: '"' + cols + '"'
+                    },
+                    {
+                        qPath: '/rows',
+                        qOp: 'replace',
+                        qValue: '"' + rows + '"'
+                    }
+                ], false);
+
+            }).then(function() {
+                app.doSave();
+            });
+        } // end resizeGrid()
+
+
+        var input_rows = {
+            ref: "rows",
+            label: "Number of rows",
+            type: "integer",
+            defaultValue: "12"
+        };
+
+        var input_cols = {
+            ref: "cols",
+            label: "Number of columns",
+            type: "integer",
+            defaultValue: "24"
+        };
+
+        var screenresizer = {
+            // not necessary to define the type, component "expandable-items" will automatically
+            // default to "items"
+            // type: "items"
+            component: "items",
+            label: "Screen Resizer(use at your own Risk)",
+            items: {
+                //	screenresizer : {
+                //type : "items",
+                //label : "Screen Resizer(use carefully)",
+                //items : {
+                input_rows: input_rows,
+                input_cols: input_cols
+                //}
+                //}
+            }
+        };
+
+        // exit
 
         return {
             initialProperties: {
@@ -118,6 +130,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     settings: {
                         uses: "settings",
                         items: {
+                            sresizer: screenresizer,
                             header1: {
                                 type: "items",
                                 label: "Customization For Sheet",
@@ -132,16 +145,25 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: false // default value as its boolean it accepts true/false will not accept if a string is added
                                     },
                                     sheetList: sheetList,
-									customSection : myCustomSection,
-                                    /*
-								  sheetid: {
+                                    // screen resizer
+
+
+                                    fontsizehtmldocument: {
                                         type: "string",
-                                        label: "Sheet Id",
-                                        ref: "prop.sheetid",
-                                        defaultValue: "",
+                                        label: "Font Size for whole document",
+                                        ref: "fontsizehtmldocument",
+                                        defaultValue: '15px',
                                         expression: "optional"
                                     },
-*/
+									
+									fonthtmldocument: {
+                                        type: "string",
+                                        label: "Font Style for whole document",
+                                        ref: "fonthtmldocument",
+                                        defaultValue: '"Times New Roman", Times, serif ',
+                                        expression: "optional"
+                                    },
+
                                     usebackgroundcolor: {
                                         ref: "prop.bgenable", // refrence/id (debug is the name)
                                         type: "boolean", // boolean is either true/false
@@ -171,6 +193,14 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         ref: "prop.bodycolor",
                                         defaultValue: "",
                                         expression: "optional"
+                                    },
+
+                                    titleHide: {
+                                        ref: "titleHide",
+                                        type: "boolean",
+                                        component: "checkbox",
+                                        label: "Hide Title",
+                                        defaultValue: false
                                     },
 
                                     titleHeight: {
@@ -223,25 +253,28 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                                 }
                             },
-							 selectionbar: {
-							  type: "items",
+
+                            // selection bar 
+
+                            selectionbar: {
+                                type: "items",
                                 label: "Customization For Selection Bar",
                                 items: {
-								 	selectionbarbg: {
+                                    selectionbarbg: {
                                         type: "string",
                                         label: "SelectionBar Background color",
                                         ref: "prop.selectionbarbg",
                                         defaultValue: "#404b56",
                                         expression: "optional"
                                     },
-									selectionbarbuttonbg: {
+                                    selectionbarbuttonbg: {
                                         type: "string",
                                         label: "SelectionBar Button Background color",
                                         ref: "prop.selectionbarbuttonbg",
                                         defaultValue: "#404b56",
                                         expression: "optional"
                                     },
-									/*
+                                    /*
                                     selectionbarbuttoncolor: {
                                         type: "string",
                                         label: "SelectionBar Button color",
@@ -250,31 +283,78 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         expression: "optional"
                                     },
 									*/
-									selectionbartextcolor: {
+                                    selectionbartextcolor: {
                                         type: "string",
                                         label: "SelectionBar Text color",
                                         ref: "prop.selectionbartextcolor",
                                         defaultValue: "#ffffff",
                                         expression: "optional"
                                     },
-									selectionbaritemcolor: {
+                                    selectionbaritemcolor: {
                                         type: "string",
                                         label: "SelectionBar Item color",
                                         ref: "prop.selectionbaritemcolor",
                                         defaultValue: "#ffffff",
                                         expression: "optional"
                                     },
-									
-									selectionbaritemhovercolor: {
+
+                                    selectionbaritemhovercolor: {
                                         type: "string",
                                         label: "SelectionBar Item Hover color",
                                         ref: "prop.selectionbaritemhovercolor",
                                         defaultValue: "#404142",
                                         expression: "optional"
                                     },
-									
-								}
-							},
+
+                                }
+                            },
+
+                            // filter pane
+
+                            filterpane: {
+                                type: "items",
+                                label: "Filterpane Styling",
+                                items: {
+                                    filter_Background_Color: {
+                                        ref: "filter_bg",
+                                        label: "Background Color",
+                                        type: "string",
+                                        expression: "optional"
+                                    },
+                                    filter_titlecolor: {
+                                        ref: "filter_titlecolor",
+                                        label: "Title Color",
+                                        type: "string",
+                                        expression: "optional"
+                                    },
+                                    filter_selected: {
+                                        ref: "filter_selected",
+                                        label: "Selected Color",
+                                        type: "string",
+                                        expression: "optional"
+                                    },
+                                    filter_locked: {
+                                        ref: "filter_locked",
+                                        label: "Locked Color",
+                                        type: "string",
+                                        expression: "optional"
+                                    },
+                                    filter_optional: {
+                                        ref: "filter_optional",
+                                        label: "Optional Color",
+                                        type: "string",
+                                        expression: "optional"
+                                    },
+                                    filter_alternative: {
+                                        ref: "filter_alternative",
+                                        label: "Alternative Color",
+                                        type: "string",
+                                        expression: "optional"
+                                    }
+                                }
+                            },
+
+                            // objects
 
                             MyList: {
                                 type: "array",
@@ -312,6 +392,22 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "",
                                         expression: "optional"
                                     },
+									
+									objtransparency: {
+                                        type: "string",
+                                        label: "Object Transparency",
+                                        ref: "objtransparency",
+                                        defaultValue: "1",
+                                        expression: "optional"
+                                    },
+									
+									objfontsize: {
+                                        type: "string",
+                                        label: "Font Size",
+                                        ref: "objfontsize",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
 
                                     txtcolor: {
                                         type: "string",
@@ -327,6 +423,15 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "",
                                         expression: "optional"
                                     },
+									
+									qvobjectcontentcontainerbgtransparency: {
+                                        type: "string",
+                                        label: "Content Container Transparency",
+                                        ref: "qvobjectcontentcontainerbgtrans",
+                                        defaultValue: "1",
+                                        expression: "optional"
+                                    },
+									
                                     qvobjectcontentcontainerbg: {
                                         type: "string",
                                         label: "Content Container BG Color",
@@ -348,11 +453,11 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "solid 1px red",
                                         expression: "optional"
                                     },
-									hideheader: {
+                                    hideheader: {
                                         ref: "hideheader",
-                                        type: "boolean", 
-                                        component: "checkbox", 
-                                        label: "Hide Header", 
+                                        type: "boolean",
+                                        component: "checkbox",
+                                        label: "Hide Header",
                                         defaultValue: false
                                     },
 
@@ -364,7 +469,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                 }
                             },
                             // end list
-
+                            //	table styling
                             MyList2: {
                                 type: "array",
                                 ref: "listItems2",
@@ -386,14 +491,14 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                     },
 
                                     // start
-									columnwidthadjuster: {
+                                    columnwidthadjuster: {
                                         ref: "columnwidthadjuster", // refrence/id (debug is the name)
                                         type: "boolean", // boolean is either true/false
                                         component: "checkbox", // callback type
                                         label: "Column Width Adjuster", // text/label which shows in property tab 
                                         defaultValue: false // default value as its boolean it accepts true/false will not accept if a string is added
                                     },
-										
+
                                     objidtable: {
                                         type: "string",
                                         label: "Object Id",
@@ -431,6 +536,20 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                             label: "Right"
                                         }],
                                     },
+									thfontsize: {
+                                        type: "string",
+                                        label: "Header Font Size",
+                                        ref: "thfontsize",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+									tdfontsize: {
+                                        type: "string",
+                                        label: "Table Data Font Size",
+                                        ref: "tdfontsize",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
                                     thhovertable: {
                                         type: "string",
                                         label: "Hover Color",
@@ -438,22 +557,24 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "",
                                         expression: "optional"
                                     },
-									  eventrtable: {
+									
+									
+                                    eventrtable: {
                                         type: "string",
                                         label: "Table Row Even Color",
                                         ref: "eventrtable",
                                         defaultValue: "",
                                         expression: "optional"
                                     },
-									 
-									  oddtrtable: {
+
+                                    oddtrtable: {
                                         type: "string",
                                         label: "Table Row Odd Color",
                                         ref: "oddtrtable",
                                         defaultValue: "",
                                         expression: "optional"
                                     },
-									 
+
                                     // end 
 
                                 }
@@ -467,12 +588,12 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
             },
             paint: function($element, layout) {
                 //add your rendering code here
-				
-				  if ($('#QlikSense-Sheet-Styler-fullScreen').length == 0) {
-                    var code = "<style id=QlikSense-Sheet-Styler-fullScreen'>.qv-object-QlikSense-Sheet-Styler ~ .qv-object-nav>a {display: none;}  .qv-object-QlikSense-Sheet-Styler .qv-object-nav>a {display: none;}</style>"
+
+                if ($('#QlikSense-Sheet-Styler-fullScreen').length == 0) {
+                    var code = "<style id='QlikSense-Sheet-Styler-fullScreen'>.qv-object-QlikSense-Sheet-Styler ~ .qv-object-nav>a {display: none;}  .qv-object-QlikSense-Sheet-Styler .qv-object-nav>a {display: none;}</style>"
                     $(code).appendTo("head");
                 }
-				
+
                 var countItem = layout.listItems.length;
 
                 var BackgroundTrans = layout.prop.transp,
@@ -489,58 +610,49 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                 var obj = [],
                     bg = [],
+					objtransparency = [],
                     txtcolor = [],
                     txtalin = [],
+					objfontsize = [],
+					contentcontainerbgtrans = [],
                     contentcontainerbg = [],
                     contentcontainercolor = [],
                     border = [],
-					hideheader = [],
+                    hideheader = [],
                     seltoolbarcolor = layout.prop.sel_toolbar_list_wrapper,
                     styletooltip = layout.prop.styletooltip,
                     styletooltiptext = layout.prop.styletooltiptext;
 
                 var tablebg = [],
+					thfontsize = [],
                     tableth = [],
                     tablethaline = [],
                     tablethhover = [],
                     table = [],
-					eventrtable =[],
-					oddtrtable = [],
-					columnwidthadjuster = [];
-					
-			
-					// screen resizer
-			
-			app.getObject(sheetId).then(function(obj) {
-			  obj.getLayout().then(function(layout)  {
-				$element.find('#size').html(layout.columns);
-				$element.find('#selector').html(layout.columns);
-			  });
-			});
-		  	
-			
-			
-			
-			
-			
-			// end
-					
-					
-					
+                    eventrtable = [],
+                    oddtrtable = [],
+                    columnwidthadjuster = [],
+					tdfontsize =[];
+
+                var qliksensesheetstyle = "<style id='styleQlikSenseSheetStyler'>";
+
+
+                qliksensesheetstyle += 'html *{ font-family: ' + layout.fonthtmldocument + '; font-size: ' + layout.fontsizehtmldocument + '; } \n';
+                // screen resizer
+
+                app.getObject(sheetId).then(function(obj) {
+                    obj.getLayout().then(function(layout) {
+                        $element.find('#size').html(layout.columns);
+                        $element.find('#selector').html(layout.columns);
+                    });
+                });
+
+                // end
 
                 //prop.sel_toolbar_list_wrapper
                 //qv-tooltip qvt-chart-tooltip
 
-                if ($('#styleQlikSenseSheetStyler').length == 0) {
-                    //$('#styleQlikSenseSheetStyler').remove();
-                    var code = "<style id=styleQlikSenseSheetStyler'>.sel-toolbar-list-wrapper{" + seltoolbarcolor + "} .qv-tooltip{" + styletooltip + "} .qv-tp-item{" + styletooltiptext + "} .qv-tp-value{" + styletooltiptext + "} </style>"
-                    $(code).appendTo("head");
-                } else {
-                    $('#styleQlikSenseSheetStyler').remove();
-                    var code = "<style id=styleQlikSenseSheetStyler'>.sel-toolbar-list-wrapper{" + seltoolbarcolor + "} .qv-tooltip{" + styletooltip + "} .qv-tp-item{" + styletooltiptext + "} .qv-tp-value{" + styletooltiptext + "} </style>"
-                    $(code).appendTo("head");
-
-                }
+                qliksensesheetstyle += ".sel-toolbar-list-wrapper{" + seltoolbarcolor + "} \n .qv-tooltip{" + styletooltip + "} \n .qv-tp-item{" + styletooltiptext + "} \n .qv-tp-value{" + styletooltiptext + "}";
 
                 //console.log("sheetid="+layout.props.selectedSheet);
                 //	console.log(layout.bgenable);
@@ -558,57 +670,103 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                 $(".sheet-title-container").css("height", "" + layout.prop.titleheight);
 
                 // sheet title
+
+                if (layout.titleHide) {
+                    $('.sheet-title-container').hide();
+                } else {
+                    $('.sheet-title-container').show();
+                }
+
+
                 $('.sheet-title-text').css('font-size', "" + layout.prop.titlefontsize);
                 $('#sheet-title').css('height', "" + layout.prop.titleheight);
                 $('#sheet-title').css('color', "" + layout.prop.titlecolor);
 
                 // qv-inner-object all object
-               // $('.qv-inner-object').css('margin', '2px 2px');
+                // $('.qv-inner-object').css('margin', '2px 2px');
+
+
+                // selection bar css
+
+                /*
+                layout.prop.selectionbarbg
+                layout.prop.selectionbarbuttonbg
+                layout.prop.selectionbartextcolor
+                layout.prop.selectionbaritemcolor
+                layout.prop.selectionbaritemhovercolor
+                */
+
+                qliksensesheetstyle += ' .qv-panel-current-selections{ background-color: ' + layout.prop.selectionbarbg + ' !important } \n';
+                qliksensesheetstyle += ' .qv-panel-current-selections .buttons-end .qv-subtoolbar-button{  background-color: ' + layout.prop.selectionbarbuttonbg + ' !important } \n';
+                qliksensesheetstyle += ' .qv-panel-current-selections .buttons .qv-subtoolbar-button{  background-color: ' + layout.prop.selectionbarbuttonbg + ' !important } \n';
+
+                qliksensesheetstyle += ' .qv-panel-current-selections .buttons .qv-subtoolbar-button i {  color: ' + layout.prop.selectionbartextcolor + ' } \n';
+                qliksensesheetstyle += ' .qv-panel-current-selections .buttons-end .qv-subtoolbar-button i{  color: ' + layout.prop.selectionbartextcolor + ' } \n';
+                qliksensesheetstyle += ' .qv-panel-current-selections .no-selection{  color: ' + layout.prop.selectionbartextcolor + ' } \n';
+                qliksensesheetstyle += ' .qv-panel-current-selections .item {  color: ' + layout.prop.selectionbartextcolor + ' } \n';
+
+                qliksensesheetstyle += ' .qv-panel-current-selections .item:hover{ background-color: ' + layout.prop.selectionbaritemhovercolor + ' } \n';
+
+                //$('.qv-panel-current-selections').css('background-color', layout.prop.selectionbarbg+' !important');
+                //$('.qv-panel-current-selections .buttons-end .qv-subtoolbar-button').css('background-color', layout.prop.selectionbarbuttonbg+' !important');
+                //$('.qv-panel-current-selections .buttons .qv-subtoolbar-button').css('background-color', layout.prop.selectionbarbuttonbg+' !important');
+
+                //$('.qv-panel-current-selections .buttons .qv-subtoolbar-button i').css('color', layout.prop.selectionbartextcolor+'');
+                //$('.qv-panel-current-selections .buttons-end .qv-subtoolbar-button i').css('color', layout.prop.selectionbartextcolor+'');
+                //$('.qv-panel-current-selections .no-selection').css('color', layout.prop.selectionbartextcolor+'');
+                //$('.qv-panel-current-selections .item').css('color', layout.prop.selectionbartextcolor+'');
+
+                //$('.qv-panel-current-selections .item:hover').css('background-color', layout.prop.selectionbaritemhovercolor+'');
+
+
+                /*
+                $( ".qv-panel-current-selections .item" ).hover(
+                  function() {
+                //  alert(1);
+                	$('.qv-panel-current-selections .item').css('background-color', layout.prop.selectionbaritemhovercolor+'');
 				
-				
-				// selection bar css
-				
-				/*
-				layout.prop.selectionbarbg
-				layout.prop.selectionbarbuttonbg
-				layout.prop.selectionbartextcolor
-				layout.prop.selectionbaritemcolor
-				layout.prop.selectionbaritemhovercolor
-				*/
-				
-				
-				$('.qv-panel-current-selections').css('background-color', layout.prop.selectionbarbg+' !important');
-				$('.qv-panel-current-selections .buttons-end .qv-subtoolbar-button').css('background-color', layout.prop.selectionbarbuttonbg+' !important');
-				$('.qv-panel-current-selections .buttons .qv-subtoolbar-button').css('background-color', layout.prop.selectionbarbuttonbg+' !important');
-				
-				
-				$('.qv-panel-current-selections .buttons .qv-subtoolbar-button i').css('color', layout.prop.selectionbartextcolor+'');
-				$('.qv-panel-current-selections .buttons-end .qv-subtoolbar-button i').css('color', layout.prop.selectionbartextcolor+'');
-				$('.qv-panel-current-selections .no-selection').css('color', layout.prop.selectionbartextcolor+'');
-				
-				$('.qv-panel-current-selections .item').css('color', layout.prop.selectionbartextcolor+'');
-				
-			//	$('.qv-panel-current-selections .item:hover').css('background-color', layout.prop.selectionbaritemhovercolor+'');
-				
-				
-				$( ".qv-panel-current-selections .item" ).hover(
-				  function() {
-				//  alert(1);
-					$('.qv-panel-current-selections .item').css('background-color', layout.prop.selectionbaritemhovercolor+'');
-				
-				  }, function() {
-				 	$('.qv-panel-current-selections .item').css('background-color', '');
-				});
-				
-				
-				
+                  }, function() {
+                 	$('.qv-panel-current-selections .item').css('background-color', '');
+                });
+                */
+
+                // filter pane css
+
+
+                qliksensesheetstyle += '.qv-collapsed-listbox  { background-color: ' + layout.filter_bg + '} \n';
+                qliksensesheetstyle += '.qv-collapsed-listbox .title-wrapper > .title { color: ' + layout.filter_titlecolor + '} \n';
+                qliksensesheetstyle += '.qv-collapsed-listbox .qv-state-count-bar > .selected { background: ' + layout.filter_selected + '} \n';
+                qliksensesheetstyle += '.qv-collapsed-listbox .qv-state-count-bar > .locked {background : ' + layout.filter_locked + '} \n';
+                qliksensesheetstyle += '.qv-collapsed-listbox .qv-state-count-bar > .optional { background: ' + layout.filter_optional + '} \n';
+                qliksensesheetstyle += '.qv-collapsed-listbox .qv-state-count-bar > .alternative { background: ' + layout.filter_alternative + '} \n';
+
+                /*
+                	$('.qv-collapsed-listbox').css('background-color', layout.filter_bg);
+                	$('.qv-collapsed-listbox .title ').css('color', layout.filter_titlecolor);
+                	$('.qv-collapsed-listbox .qv-state-count-bar .selected').css('background', layout.filter_selected);
+                	$('.qv-collapsed-listbox .qv-state-count-bar .locked').css('background', layout.filter_locked);
+                	$('.qv-collapsed-listbox .qv-state-count-bar .optional').css('background', layout.filter_optional);
+                	$('.qv-collapsed-listbox .qv-state-count-bar .alternative').css('background', layout.filter_alternative );
+                */
+
+
+                qliksensesheetstyle += '\n </style>';
+
+
+                // remove and append
+
+                $('#styleQlikSenseSheetStyler').remove();
+                $(qliksensesheetstyle).appendTo("head");
+
+
+
                 var str = '',
                     details = '';
                 if (layout.debug) {
                     str = '';
                     app.getAppObjectList('sheet', function(reply) {
                         var sheet = '',
-                            chksheet = layout.props.selectedSheet, //layout.prop.sheetid, // 0368fb8f-2b0b-47d4-b86a-238b831bff0b   layout.props.sheetid
+                            chksheet = layout.props.selectedSheet, //layout.prop.sheetid, // 0368fb8f-2b0b-47d4-b86a-238b831bff0b   //layout.props.sheetid
                             bol = 0;
                         //alert(chksheet);
 
@@ -659,17 +817,17 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                         //	console.log('det:'+details);
 
-                        $element.html('<input type="submit" value="Resize Sheet" id="resize"><br>'+details + '<table style="  display: block; width: 90%; border: 1px solid #eee;  max-height: 320px; overflow: auto;">' + str + '</table>');
+                        $element.html('<input type="submit" value="Resize Sheet" id="resize"><br>' + details + '<table style="  display: block; width: 90%; border: 1px solid #eee;  max-height: 320px; overflow: auto;">' + str + '</table>');
                         $('.qv-object-QlikSense-Sheet-Styler').show();
-						
-						$('#resize').click(function(){
-						//	alert('1');
-							console.log(layout.rows+' '+layout.cols);
-							resizeGrid(layout.rows, layout.cols);
-							
-						});
-						
-						
+
+                        $('#resize').click(function() {
+                            //	alert('1');
+                            console.log('resize screen :' + layout.rows + ' ' + layout.cols);
+                            resizeGrid(layout.rows, layout.cols);
+
+                        });
+
+
                         //alert(str);
                     });
 
@@ -721,11 +879,24 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                         if (index == 'border') {
                             border.push(value);
                         }
-						if (index == 'hideheader') {
+                        if (index == 'hideheader') {
                             hideheader.push(value);
+                        }
+						if (index == 'objtransparency') {
+                            objtransparency.push(value);
+                        }
+						if (index == 'qvobjectcontentcontainerbgtrans') {
+                            contentcontainerbgtrans.push(value);
+                        }
+						if (index == 'objfontsize') {
+                            objfontsize.push(value);
                         }
 						
 						
+						
+						
+
+
 
                         // end
 
@@ -764,17 +935,27 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                         if (index == 'thhovertable') {
                             tablethhover.push(value);
                         }
-						if(index == 'columnwidthadjuster'){
-							columnwidthadjuster.push(value);
-						}
+                        if (index == 'columnwidthadjuster') {
+                            columnwidthadjuster.push(value);
+                        }
+
+                        if (index == 'eventrtable') {
+                            eventrtable.push(value);
+                        }
+                        if (index == 'oddtrtable') {
+                            oddtrtable.push(value);
+                        }
+						 if (index == 'thfontsize') {
+                            thfontsize.push(value);
+                        }
+						if (index == 'tdfontsize') {
+                            tdfontsize.push(value);
+                        }
 						
-						if(index == 'eventrtable'){
-							eventrtable.push(value);
-						}
-						if(index == 'oddtrtable'){
-							oddtrtable.push(value);
-						}
 						
+						
+						
+
                         // end
 
                     });
@@ -786,18 +967,19 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                 $.each(obj, function(index, value) {
                     //objidtst+=value;
 
-					// hide header
-					
-					if(hideheader[index]){
-						$('div[tid="' + value + '"] header').hide();
-					}else{
-						$('div[tid="' + value + '"] header').show();
-					}
-					
-					
+                    // hide header
+
+                    if (hideheader[index]) {
+                        $('div[tid="' + value + '"] header').hide();
+                    } else {
+                        $('div[tid="' + value + '"] header').show();
+                    }
+
                     // object title text qv-object-title-text
                     $('div[tid="' + value + '"] .qv-object-title-text').css('color', '' + txtcolor[index]);
                     $('div[tid="' + value + '"] .qv-object-title-text').css('background-color', '' + bg[index]);
+					
+					
 
                     // object title container qv-object-title
                     $('div[tid="' + value + '"] .qv-object-title').css('background-color', '' + bg[index]);
@@ -807,13 +989,29 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     // header
                     $('div[tid="' + value + '"] header').css('padding', '3px');
                     $('div[tid="' + value + '"] header').css('background-color', '' + bg[index]);
+					$('div[tid="' + value + '"] header h1').css('font-size', '' + objfontsize[index]);
+					
+					
+
+					// qv-object-content-container transparency
+					
+					$('div[tid="' + value + '"] .qv-object-content-container').css('opacity', '' + contentcontainerbgtrans[index] );
+					$('div[tid="' + value + '"] .qv-object-content-container').css('filter', 'alpha(opacity='+ (contentcontainerbgtrans[index]* 100) +')');
+					
 
                     // content container
                     $('div[tid="' + value + '"] .qv-object-content-container').css('background-color', '' + contentcontainerbg[index]);
                     $('div[tid="' + value + '"] .qv-object-content-container').css('color', '' + contentcontainercolor[index]);
-					$('div[tid="' + value + '"] article').css('background-color', '' + contentcontainerbg[index]);
-	
+                    $('div[tid="' + value + '"] article').css('background-color', '' + contentcontainerbg[index]);
+					$('div[tid="' + value + '"] article').css('font-size', '' + objfontsize[index]);
+					$('div[tid="' + value + '"] .qv-object-content-container').css('font-size', '' + objfontsize[index]);
+
                     //console.log('div[tid="' + value + '"]'+border[index]);
+
+					// objtransparency
+					
+					$('div[tid="' + value + '"]').css('opacity', objtransparency[index] + "");
+					$('div[tid="' + value + '"]').css('filter', 'alpha(opacity='+ (objtransparency[index]* 100) +')');
 
                     // border
                     $('div[tid="' + value + '"]').css('border', border[index] + "");
@@ -836,9 +1034,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 																			"border-top-width":"1px"});
 
 					*/
-					
-					
-					
+
 
                     // hoverover border qvobject
                     $('div[tid="' + value + '"] .qv-object-wrapper').hover(function() {
@@ -853,8 +1049,8 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                 $('div[tid="' + value + '"] .qv-object-nav a').css('background-color', '' + bg[index]);
                                 $('div[tid="' + value + '"] .qv-object-nav a').css('color', '' + txtcolor[index]);
                                 $('div[tid="' + value + '"] .qv-object-nav a').css('border', '2px solid ' + txtcolor[index]);
-                               //a[tid="nav-menu-zoom-out"]
-							   $('div[tid="' + value + '"] a[tid="nav-menu-zoom-out"]').mousemove(function() {
+                                //a[tid="nav-menu-zoom-out"]
+                                $('div[tid="' + value + '"] a[tid="nav-menu-zoom-out"]').mousemove(function() {
                                     if ($('div[tid="' + value + '"] a[tid="nav-menu-zoom-out"]')) {
                                         $('div[tid="' + value + '"] .qv-object-nav a').css('background-color', '');
                                         $('div[tid="' + value + '"] .qv-object-nav a').css('color', '' + txtcolor[index]);
@@ -888,25 +1084,28 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     $('div[tid="' + value + '"] th .qv-st-value').css("color", tableth[index]);
 
                     $('div[tid="' + value + '"] th .qv-st-value').css("text-align", tablethaline[index]);
+					 
+					$('div[tid="' + value + '"] th .qv-st-value').css("font-size", thfontsize[index]);
+					
+					$('div[tid="' + value + '"] td .qv-st-value').css("font-size", tdfontsize[index]);
+					
+					
 
                     $('div[tid="' + value + '"] th').hover(function() {
                         $(this).css("background-color", tablethhover[index]);
                     }, function() {
                         $(this).css("background-color", "");
                     });
+
+                    if (columnwidthadjuster[index]) {
+                        $('div[tid="' + value + '"] .column-width-adjuster').css('display', 'none');
+                    } else {
+                        $('div[tid="' + value + '"] .column-width-adjuster').css('display', '');
+                    }
 					
-					if(columnwidthadjuster[index]){
-						$('div[tid="' + value + '"] .column-width-adjuster').css('display', 'none');
-					}else{
-						$('div[tid="' + value + '"] .column-width-adjuster').css('display', '');
-					}
-					
-					  
-					
-					$('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:even').css("background-color", eventrtable[index]);
-					$('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:odd').css("background-color", oddtrtable[index]);
-					
-					
+                    $('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:even').css("background-color", eventrtable[index]);
+                    $('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:odd').css("background-color", oddtrtable[index]);
+
 
                 });
 
