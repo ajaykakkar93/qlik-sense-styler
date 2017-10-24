@@ -26,7 +26,7 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	  <li>Header Font Size of  individual Objects and of table data (by - Prithvi)</li>
 </ol>
 
-<img src="./qlik_sense_sheet_styler-v2.gif" alt="2nd Version">
+<img src="./qlik_sense_sheet_styler-v3.gif" alt="3nd Version">
 
 <hr>
 
