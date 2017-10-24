@@ -1,9 +1,7 @@
 # qlik-sense-styler
 
 
-<div class="card" style="background-color: lightcyan;">
- <div class="container" >
- 
+
 	<h2>Why Do We need CSS for styling?</h2>
 
 	<ol>
@@ -19,13 +17,6 @@ Color is powerful because it helps in changing the mood – the mood of prospect
 With this extension anyone will be able to style Qlik Sense Sheet with some option which can change the look and feel of entire Application/Sheet.
 </p>
 
-  </div>
-</div>
-
-
-
-<div class="card" style="background-color: lightcyan;">
- <div class="container" >
 
 	<h2>Third Version:</h2>
 
@@ -41,13 +32,6 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	  <li>Header Font Size of  individual Objects and of table data (by - Prithvi)</li>
 	</ol>
 
-  </div>
-</div>
-
-
-
-<div class="card" style="background-color: lightcyan;">
- <div class="container" >
 <h2>Bugs:</h2>
 <ol>
   <li>Selection bar style cannot be applied</li>
@@ -66,14 +50,6 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	  <li>Tooltip css</li>
 	</ol> 
 
-  </div>
-</div>
-
-
-
-<div class="card" style="background-color: lightcyan;">
- <div class="container" >
- 
 	<h2>First Version:</h2>
 	<h3>Options:</h3>
 
@@ -84,13 +60,7 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	  <li>Can change an objects header text color, text alignment, background color</li>
 	  <li>Can change hover color, text alignment, background color of the table header</li>
 	</ol> 
-  </div>
-</div>
-
-
-
-<div class="card" style="background-color: antiquewhite;">
- <div class="container" >
+  
 	
 	<h2>Note:</h2>
 	<ol>
@@ -99,14 +69,7 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	  <li>The Forth version is on its way</li>
 	</ol> 
 	
-  </div>
-</div>
-
-
-
-<div class="card" style="background-color: lavender;">
- <div class="container" >
-	
+ 
 	<p>
 	It was a long way to make this extension as a module for qlik sense,
 	 </p>
@@ -123,11 +86,6 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 	<b style="font-size:1.3em;"><u>Leave Comments for any Improvements for this styling extension.</u></b>
 	</p>
 	
-  </div>
-</div>
-
-
-
 
 <b>First Version:</b>
 Options: 
