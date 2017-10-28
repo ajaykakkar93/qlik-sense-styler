@@ -33,6 +33,7 @@ With this extension anyone will be able to style Qlik Sense Sheet with some opti
 <h2>Bugs:</h2>
 <ol>
   <li>Selection bar style cannot be applied</li>
+	<li>Font Size for individual objects were not applied (by - cpomeren003)</li>
 </ol> 
 
 <h2>Second Version:</h2>
