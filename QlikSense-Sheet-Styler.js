@@ -990,6 +990,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     $('div[tid="' + value + '"] header').css('padding', '3px');
                     $('div[tid="' + value + '"] header').css('background-color', '' + bg[index]);
 					$('div[tid="' + value + '"] header h1').css('font-size', '' + objfontsize[index]);
+					$('div[tid="' + value + '"] header h1 div').css('font-size', '' + objfontsize[index]);
 					
 					
 
@@ -1085,9 +1086,9 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                     $('div[tid="' + value + '"] th .qv-st-value').css("text-align", tablethaline[index]);
 					 
-					$('div[tid="' + value + '"] th .qv-st-value').css("font-size", thfontsize[index]);
+					$('div[tid="' + value + '"] th .qv-st-value span').css("font-size", thfontsize[index]);
 					
-					$('div[tid="' + value + '"] td .qv-st-value').css("font-size", tdfontsize[index]);
+					$('div[tid="' + value + '"] td .qv-st-value span').css("font-size", tdfontsize[index]);
 					
 					
 
