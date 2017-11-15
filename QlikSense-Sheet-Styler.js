@@ -260,6 +260,15 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                 type: "items",
                                 label: "Customization For Selection Bar",
                                 items: {
+								
+									selectionbarHide: {
+                                        ref: "selectionbarHide",
+                                        type: "boolean",
+                                        component: "checkbox",
+                                        label: "Hide Selection Bar",
+                                        defaultValue: false
+                                    },
+								
                                     selectionbarbg: {
                                         type: "string",
                                         label: "SelectionBar Background color",
@@ -491,6 +500,14 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                     },
 
                                     // start
+									pivottable: {
+                                        ref: "pivottable", // refrence/id (debug is the name)
+                                        type: "boolean", // boolean is either true/false
+                                        component: "checkbox", // callback type
+                                        label: "Pivot Support", // text/label which shows in property tab 
+                                        defaultValue: false // default value as its boolean it accepts true/false will not accept if a string is added
+                                    },
+									
                                     columnwidthadjuster: {
                                         ref: "columnwidthadjuster", // refrence/id (debug is the name)
                                         type: "boolean", // boolean is either true/false
@@ -624,6 +641,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     styletooltiptext = layout.prop.styletooltiptext;
 
                 var tablebg = [],
+					pivottable = [],
 					thfontsize = [],
                     tableth = [],
                     tablethaline = [],
@@ -665,6 +683,16 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     $('.qvt-sheet').css('background-color', RGBAString);
 
                 }
+
+
+				// hide selection bar
+				
+				if (layout.selectionbarHide) {
+                    $('.qvt-selections').hide();
+                } else {
+                    $('.qvt-selections').show();
+                }
+
 
                 // sheet title container
                 $(".sheet-title-container").css("height", "" + layout.prop.titleheight);
@@ -951,6 +979,11 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 						if (index == 'tdfontsize') {
                             tdfontsize.push(value);
                         }
+						if (index == 'pivottable') {
+                            pivottable.push(value);
+                        }
+						
+						
 						
 						
 						
@@ -1080,9 +1113,20 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                 $.each(table, function(index, value) {
 
+					if(pivottable[index]){
+						// for pivot
+						$('div[tid="' + value + '"] tbody tr th').css("background-color", tablebg[index]);
+
+						$('div[tid="' + value + '"] tbody tr:even').css("background-color", eventrtable[index]);
+						$('div[tid="' + value + '"] tbody tr:odd').css("background-color", oddtrtable[index]);
+						// end
+					}
+					
                     $('div[tid="' + value + '"] .qv-st-header-wrapper').css("background-color", tablebg[index]);
 
                     $('div[tid="' + value + '"] th .qv-st-value').css("color", tableth[index]);
+					
+					$('div[tid="' + value + '"] .qv-st-header-cell-search').css("color", tableth[index]);
 
                     $('div[tid="' + value + '"] th .qv-st-value').css("text-align", tablethaline[index]);
 					 
@@ -1095,7 +1139,8 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     $('div[tid="' + value + '"] th').hover(function() {
                         $(this).css("background-color", tablethhover[index]);
                     }, function() {
-                        $(this).css("background-color", "");
+                       $(this).css("background-color", tablebg[index]);
+					
                     });
 
                     if (columnwidthadjuster[index]) {
@@ -1106,8 +1151,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 					
                     $('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:even').css("background-color", eventrtable[index]);
                     $('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:odd').css("background-color", oddtrtable[index]);
-
-
+					
                 });
 
                 // $element.html(objidtst);
