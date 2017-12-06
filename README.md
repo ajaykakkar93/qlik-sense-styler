@@ -14,16 +14,21 @@ Color is powerful because it helps in changing the mood – the mood of prospect
 With this extension anyone will be able to style Qlik Sense Sheet with some option which can change the look and feel of entire Application/Sheet.
 </p>
 
+
+<h2>Fifth Version:</h2>
+<h3>Functions added:</h3>
+<ol>
+	  <li>Can Custom Title or Change Document Title</li>
+	  <li>Title Image Width (upto 190px)</li>
+	  <li>Now style can be applied to all abject from single property panel</li>
+</ol>
+
 <h2>Forth Version:</h2>
 <h3>Functions added:</h3>
 <ol>
 	  <li>Pivot Support in Table Styling</li>
 	  <li>Hide Selection Bar Option( by - jfortner)</li>
 	  <li>Simplified Property Panel and Some Bugs Solved</li>
-	  <li>Hide Title Bar</li>
-	  <li>Object Transparency [example: 0.1 or 0.7] (by – dtr)</li>
-	  <li>Object Container Transparency [example: 0.1 or 0.7] (by – dtr)</li>
-	  <li>Header Font Size of  individual Objects and of table data (by - Prithvi)</li>
 </ol>
 
 <h2>Third Version:</h2>
