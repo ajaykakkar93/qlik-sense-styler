@@ -484,7 +484,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         ref: "navstyle",
                                         type: "boolean",
                                         component: "checkbox",
-                                        label: "Hide Header",
+                                        label: "Apply Style to Navigation",
                                         defaultValue: false
                                     }
 									
