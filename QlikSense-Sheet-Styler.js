@@ -1,3 +1,5 @@
+var objid = [];
+
 define(["qlik", "ng!$q", "underscore", "text!./style.css"],
     function(qlik, o, _, cssContent) {
         "use strict";
@@ -147,7 +149,24 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                     sheetList: sheetList,
                                     // screen resizer
 
+									useogtitle: {
+                                        ref: "useogtitle",
+                                        type: "boolean",
+                                        component: "checkbox",
+                                        label: "Use Custom Title",
+                                        defaultValue: false
+                                    },
+									
+									//sheet-title-text
+									 sheettitletext: {
+                                        type: "string",
+                                        label: "Document Title",
+                                        ref: "sheettitletext",
+                                        defaultValue: '',
+                                        expression: "optional"
+                                    },
 
+									 
                                     fontsizehtmldocument: {
                                         type: "string",
                                         label: "Font Size for whole document",
@@ -155,8 +174,8 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: '15px',
                                         expression: "optional"
                                     },
-									
-									fonthtmldocument: {
+
+                                    fonthtmldocument: {
                                         type: "string",
                                         label: "Font Style for whole document",
                                         ref: "fonthtmldocument",
@@ -226,6 +245,17 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "",
                                         expression: "optional"
                                     },
+
+
+                                    titleImage: {
+                                        type: "string",
+                                        label: "Title Image Size",
+                                        ref: "prop.titleImage",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+
+
                                     seltoolbarlist: {
                                         type: "string",
                                         label: "Selection Toolbar Css",
@@ -260,15 +290,15 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                 type: "items",
                                 label: "Customization For Selection Bar",
                                 items: {
-								
-									selectionbarHide: {
+
+                                    selectionbarHide: {
                                         ref: "selectionbarHide",
                                         type: "boolean",
                                         component: "checkbox",
                                         label: "Hide Selection Bar",
                                         defaultValue: false
                                     },
-								
+
                                     selectionbarbg: {
                                         type: "string",
                                         label: "SelectionBar Background color",
@@ -362,6 +392,107 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                     }
                                 }
                             },
+                            Allobjectsstyle: {
+                                type: "items",
+                                label: "All Objects Styling",
+                                items: {
+                                    allonjenable: {
+                                        ref: "allonjenable",
+                                        type: "boolean",
+                                        component: "checkbox",
+                                        label: "Enable To apply Style for all objects",
+                                        defaultValue: false
+                                    },
+                                    backcolor: {
+                                        type: "string",
+                                        label: "Header Background Color",
+                                        ref: "obj_bgcolor",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    /*
+									objtransparency: {
+                                        type: "string",
+                                        label: "Object Transparency",
+                                        ref: "obj_objtransparency",
+                                        defaultValue: "1",
+                                        expression: "optional"
+                                    },
+									*/
+                                    objfontsize: {
+                                        type: "string",
+                                        label: "Font Size",
+                                        ref: "obj_objfontsize",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+
+                                    txtcolor: {
+                                        type: "string",
+                                        label: "Header Text Color",
+                                        ref: "obj_txtcolor",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    txtalin: {
+                                        type: "string",
+                                        label: "Header Text Alignment",
+                                        ref: "obj_txtalin",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+
+                                    qvobjectcontentcontainerbgtransparency: {
+                                        type: "string",
+                                        label: "Content Container Transparency",
+                                        ref: "obj_qvobjectcontentcontainerbgtrans",
+                                        defaultValue: "1",
+                                        expression: "optional"
+                                    },
+
+                                    qvobjectcontentcontainerbg: {
+                                        type: "string",
+                                        label: "Content Container BG Color",
+                                        ref: "obj_qvobjectcontentcontainerbg",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    qvobjectcontentcontainercolor: {
+                                        type: "string",
+                                        label: "Content Container Color",
+                                        ref: "obj_qvobjectcontentcontainercolor",
+                                        defaultValue: "",
+                                        expression: "optional"
+                                    },
+                                    /*
+                                    border: {
+                                        type: "string",
+                                        label: "Container border",
+                                        ref: "obj_border",
+                                        defaultValue: "solid 1px red",
+                                        expression: "optional"
+                                    },
+									*/
+                                    hideheader: {
+                                        ref: "obj_hideheader",
+                                        type: "boolean",
+                                        component: "checkbox",
+                                        label: "Hide Header",
+                                        defaultValue: false
+                                    },
+									 navstyle: {
+                                        ref: "navstyle",
+                                        type: "boolean",
+                                        component: "checkbox",
+                                        label: "Hide Header",
+                                        defaultValue: false
+                                    }
+									
+									
+                                    // end
+                                }
+
+                            },
 
                             // objects
 
@@ -401,16 +532,16 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "",
                                         expression: "optional"
                                     },
-									
-									objtransparency: {
+
+                                    objtransparency: {
                                         type: "string",
                                         label: "Object Transparency",
                                         ref: "objtransparency",
                                         defaultValue: "1",
                                         expression: "optional"
                                     },
-									
-									objfontsize: {
+
+                                    objfontsize: {
                                         type: "string",
                                         label: "Font Size",
                                         ref: "objfontsize",
@@ -432,15 +563,15 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "",
                                         expression: "optional"
                                     },
-									
-									qvobjectcontentcontainerbgtransparency: {
+
+                                    qvobjectcontentcontainerbgtransparency: {
                                         type: "string",
                                         label: "Content Container Transparency",
                                         ref: "qvobjectcontentcontainerbgtrans",
                                         defaultValue: "1",
                                         expression: "optional"
                                     },
-									
+
                                     qvobjectcontentcontainerbg: {
                                         type: "string",
                                         label: "Content Container BG Color",
@@ -500,14 +631,14 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                     },
 
                                     // start
-									pivottable: {
+                                    pivottable: {
                                         ref: "pivottable", // refrence/id (debug is the name)
                                         type: "boolean", // boolean is either true/false
                                         component: "checkbox", // callback type
                                         label: "Pivot Support", // text/label which shows in property tab 
                                         defaultValue: false // default value as its boolean it accepts true/false will not accept if a string is added
                                     },
-									
+
                                     columnwidthadjuster: {
                                         ref: "columnwidthadjuster", // refrence/id (debug is the name)
                                         type: "boolean", // boolean is either true/false
@@ -553,14 +684,14 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                             label: "Right"
                                         }],
                                     },
-									thfontsize: {
+                                    thfontsize: {
                                         type: "string",
                                         label: "Header Font Size",
                                         ref: "thfontsize",
                                         defaultValue: "",
                                         expression: "optional"
                                     },
-									tdfontsize: {
+                                    tdfontsize: {
                                         type: "string",
                                         label: "Table Data Font Size",
                                         ref: "tdfontsize",
@@ -574,8 +705,8 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                         defaultValue: "",
                                         expression: "optional"
                                     },
-									
-									
+
+
                                     eventrtable: {
                                         type: "string",
                                         label: "Table Row Even Color",
@@ -627,22 +758,23 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                 var obj = [],
                     bg = [],
-					objtransparency = [],
+                    objtransparency = [],
                     txtcolor = [],
                     txtalin = [],
-					objfontsize = [],
-					contentcontainerbgtrans = [],
+                    objfontsize = [],
+                    contentcontainerbgtrans = [],
                     contentcontainerbg = [],
                     contentcontainercolor = [],
                     border = [],
                     hideheader = [],
                     seltoolbarcolor = layout.prop.sel_toolbar_list_wrapper,
                     styletooltip = layout.prop.styletooltip,
-                    styletooltiptext = layout.prop.styletooltiptext;
+                    styletooltiptext = layout.prop.styletooltiptext,
+                    titleImageSize = layout.prop.titleImage;
 
                 var tablebg = [],
-					pivottable = [],
-					thfontsize = [],
+                    pivottable = [],
+                    thfontsize = [],
                     tableth = [],
                     tablethaline = [],
                     tablethhover = [],
@@ -650,7 +782,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     eventrtable = [],
                     oddtrtable = [],
                     columnwidthadjuster = [],
-					tdfontsize =[];
+                    tdfontsize = [];
 
                 var qliksensesheetstyle = "<style id='styleQlikSenseSheetStyler'>";
 
@@ -685,15 +817,19 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                 }
 
 
-				// hide selection bar
-				
-				if (layout.selectionbarHide) {
+                // hide selection bar
+
+                if (layout.selectionbarHide) {
                     $('.qvt-selections').hide();
                 } else {
                     $('.qvt-selections').show();
                 }
-
-
+							
+				if(layout.useogtitle){
+					// sheet-title-text
+					$(".sheet-title-text").html(layout.sheettitletext);
+				}
+				
                 // sheet title container
                 $(".sheet-title-container").css("height", "" + layout.prop.titleheight);
 
@@ -709,6 +845,14 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                 $('.sheet-title-text').css('font-size', "" + layout.prop.titlefontsize);
                 $('#sheet-title').css('height', "" + layout.prop.titleheight);
                 $('#sheet-title').css('color', "" + layout.prop.titlecolor);
+
+                // title image size / style
+
+                //
+                $('.sheet-title-logo-img img').css('width', "" + titleImageSize);
+
+                // end
+
 
                 // qv-inner-object all object
                 // $('.qv-inner-object').css('margin', '2px 2px');
@@ -798,6 +942,8 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                             bol = 0;
                         //alert(chksheet);
 
+                        //	window.setTimeout( function(){
+
                         //console.log(reply);
                         $.each(reply.qAppObjectList.qItems, function(key, value) {
                             //  console.log(value);
@@ -812,6 +958,7 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                                 // get object id and type
                                 //console.log(value.qData);
+
                                 $.each(value.qData.cells, function(k, v) {
 
                                     var type = v.type,
@@ -838,8 +985,13 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                                     //   }
 
                                 });
+
+
                             }
                         });
+
+                        //	}, 1000 ); 
+
 
                         //	$('body').append('<hr>'+str+'<hr>');
 
@@ -864,6 +1016,183 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     $element.empty();
                     $('.qv-object-QlikSense-Sheet-Styler').hide();
                 }
+
+                // for all objects
+
+                if (layout.allonjenable) {
+
+                    //console.log(layout.allonjenable);
+
+                    var qvobjectcontentcontainerbgtrans = layout.obj_qvobjectcontentcontainerbgtrans,
+                        objtransparency = layout.obj_objtransparency,
+                        hideheader = layout.obj_hideheader,
+                        border = layout.obj_border,
+                        qvobjectcontentcontainercolor = layout.obj_qvobjectcontentcontainercolor,
+                        qvobjectcontentcontainerbg = layout.obj_qvobjectcontentcontainerbg,
+                        txtalin = layout.obj_txtalin,
+                        txtcolor = layout.obj_txtcolor,
+                        bgcolor = layout.obj_bgcolor,
+                        objfontsize = layout.obj_objfontsize,
+						navstyle = layout.navstyle;
+
+                 //   console.log(txtcolor + ',' + bgcolor);
+
+                    var chksheet = layout.props.selectedSheet;
+
+                    var i = 1;
+
+                    app.getAppObjectList('sheet', function(reply) {
+                        $.each(reply.qAppObjectList.qItems, function(key, value) {
+                            var sheet = value.qInfo.qId + '';
+                            if (sheet == chksheet) {
+                                str += value.qData.title + ' ';
+                                $.each(value.qData.cells, function(k, v) {
+                                    var type = v.type,
+                                        name = v.name;
+
+                                    //console.log(type);	
+                                    //console.log(name);	
+
+
+                                    if (hideheader) {
+                                        $('div[tid="' + name + '"] header').hide();
+                                    } else {
+                                        $('div[tid="' + name + '"] header').show();
+                                    }
+
+
+
+                                    // object title text qv-object-title-text
+                                    $('div[tid="' + name + '"] .qv-object-title-text').css('color', '' + txtcolor);
+                                    $('div[tid="' + name + '"] .qv-object-title-text').css('background-color', '' + bgcolor);
+
+
+                                    // object title container qv-object-title
+                                    $('div[tid="' + name + '"] .qv-object-title').css('background-color', '' + bgcolor);
+                                    $('div[tid="' + name + '"] .qv-object-title-text').css('margin-left', '' + txtalin + '%');
+                                    $('div[tid="' + name + '"] .qv-object-title').css('padding-right', '0px');
+
+
+                                    // header
+                                    $('div[tid="' + name + '"] header').css('padding', '3px');
+                                    $('div[tid="' + name + '"] header').css('background-color', '' + bgcolor);
+                                    $('div[tid="' + name + '"] header h1').css('font-size', '' + objfontsize);
+                                    $('div[tid="' + name + '"] header h1 div').css('font-size', '' + objfontsize);
+
+
+                                    // qv-object-content-container transparency
+
+                                    $('div[tid="' + name + '"] .qv-object-content-container').css('opacity', '' + qvobjectcontentcontainerbgtrans);
+                                    $('div[tid="' + name + '"] .qv-object-content-container').css('filter', 'alpha(opacity=' + (qvobjectcontentcontainerbgtrans * 100) + ')');
+
+                                    // content container
+                                    $('div[tid="' + name + '"] .qv-object-content-container').css('background', '' + qvobjectcontentcontainerbg);
+                                    $('div[tid="' + name + '"] .qv-object-content-container').css('color', '' + qvobjectcontentcontainercolor);
+                                    $('div[tid="' + name + '"] article').css('background', '' + qvobjectcontentcontainerbg);
+                                    $('div[tid="' + name + '"] article').css('font-size', '' + objfontsize);
+                                    $('div[tid="' + name + '"] .qv-object-content-container').css('font-size', '' + objfontsize);
+
+                                    //console.log('div[tid="' + value + '"]'+border[index]);
+
+
+                                    /*
+                                    								// objtransparency
+
+                                    								$('div[tid="' + value + '"]').css('opacity', objtransparency + "");
+                                    								$('div[tid="' + value + '"]').css('filter', 'alpha(opacity='+ (objtransparency* 100) +')');
+
+                                    								// border
+                                    								$('div[tid="' + value + '"]').css('border', border + "");
+
+                                    */
+
+                                    //qv-discrete-color-legend
+
+                                    $('div[tid="' + name + '"] .qv-discrete-color-legend').css('color', '' + qvobjectcontentcontainercolor);
+
+                                    //cl-title dcl-title
+
+                                    $('div[tid="' + name + '"] .dcl-title-inner').css('color', '' + qvobjectcontentcontainercolor);
+
+
+
+                                    // hoverover border qvobject
+									//qv-object-nav
+                                    $('div[tid="' + name + '"] .qv-object-wrapper').hover(function() {
+                                            //$('div[tid="' + value + '"] .qv-object-wrapper').css({hoverborder});
+                                            // icon color
+                                            
+											
+											if(layout.navstyle){
+												if ($('div[tid="' + name + '"] .qv-object-nav a')) {
+													//	alert(1);
+													$('div[tid="' + name + '"] .qv-object-nav a').css('background-color', '' + bgcolor);
+													$('div[tid="' + name + '"] .qv-object-nav a').css('color', '' + txtcolor);
+													$('div[tid="' + name + '"] .qv-object-nav a').css('border', '2px solid ' + txtcolor);
+													//a[tid="nav-menu-zoom-out"]
+													$('div[tid="' + value + '"] a[tid="nav-menu-zoom-out"]').mousemove(function() {
+														if ($('div[tid="' + name + '"] a[tid="nav-menu-zoom-out"]')) {
+															$('div[tid="' + name + '"] .qv-object-nav a').css('background-color', '');
+															$('div[tid="' + name + '"] .qv-object-nav a').css('color', '' + txtcolor);
+															$('div[tid="' + name + '"] .qv-object-nav a').css('border', '');
+														}
+													});
+                                            	}
+											}else{
+												if ($('div[tid="' + name + '"] .qv-object-nav a')) {
+                                                //	alert(1);
+													$('div[tid="' + name + '"] .qv-object-nav a').css('background-color', 'white');
+													$('div[tid="' + name + '"] .qv-object-nav a').css('color', 'black');
+													$('div[tid="' + name + '"] .qv-object-nav a').css('border', '2px solid black');
+													//a[tid="nav-menu-zoom-out"]
+													$('div[tid="' + value + '"] a[tid="nav-menu-zoom-out"]').mousemove(function() {
+														if ($('div[tid="' + name + '"] a[tid="nav-menu-zoom-out"]')) {
+															$('div[tid="' + name + '"] .qv-object-nav a').css('background-color', '');
+															$('div[tid="' + name + '"] .qv-object-nav a').css('color', 'black');
+															$('div[tid="' + name + '"] .qv-object-nav a').css('border', '');
+														}
+													});
+												}
+											}
+											
+											
+                                            // end
+                                        },
+                                        function() {});
+                                });
+
+
+                            }
+
+
+                        });
+                    });
+
+                    console.log(objid.length);
+
+                    $.each(objid, function(k, name) {
+
+
+                        console.log(name);
+                        // call array here
+
+                        window.setTimeout(function() {
+
+                        }, 1000);
+
+
+
+                    });
+
+
+
+
+                }
+
+
+                // end	
+
+
 
                 str = '';
                 details = '';
@@ -910,19 +1239,16 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                         if (index == 'hideheader') {
                             hideheader.push(value);
                         }
-						if (index == 'objtransparency') {
+                        if (index == 'objtransparency') {
                             objtransparency.push(value);
                         }
-						if (index == 'qvobjectcontentcontainerbgtrans') {
+                        if (index == 'qvobjectcontentcontainerbgtrans') {
                             contentcontainerbgtrans.push(value);
                         }
-						if (index == 'objfontsize') {
+                        if (index == 'objfontsize') {
                             objfontsize.push(value);
                         }
-						
-						
-						
-						
+
 
 
 
@@ -973,21 +1299,18 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                         if (index == 'oddtrtable') {
                             oddtrtable.push(value);
                         }
-						 if (index == 'thfontsize') {
+                        if (index == 'thfontsize') {
                             thfontsize.push(value);
                         }
-						if (index == 'tdfontsize') {
+                        if (index == 'tdfontsize') {
                             tdfontsize.push(value);
                         }
-						if (index == 'pivottable') {
+                        if (index == 'pivottable') {
                             pivottable.push(value);
                         }
-						
-						
-						
-						
-						
-						
+
+
+
 
                         // end
 
@@ -1011,8 +1334,8 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     // object title text qv-object-title-text
                     $('div[tid="' + value + '"] .qv-object-title-text').css('color', '' + txtcolor[index]);
                     $('div[tid="' + value + '"] .qv-object-title-text').css('background-color', '' + bg[index]);
-					
-					
+
+
 
                     // object title container qv-object-title
                     $('div[tid="' + value + '"] .qv-object-title').css('background-color', '' + bg[index]);
@@ -1022,30 +1345,30 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     // header
                     $('div[tid="' + value + '"] header').css('padding', '3px');
                     $('div[tid="' + value + '"] header').css('background-color', '' + bg[index]);
-					$('div[tid="' + value + '"] header h1').css('font-size', '' + objfontsize[index]);
-					$('div[tid="' + value + '"] header h1 div').css('font-size', '' + objfontsize[index]);
-					
-					
+                    $('div[tid="' + value + '"] header h1').css('font-size', '' + objfontsize[index]);
+                    $('div[tid="' + value + '"] header h1 div').css('font-size', '' + objfontsize[index]);
 
-					// qv-object-content-container transparency
-					
-					$('div[tid="' + value + '"] .qv-object-content-container').css('opacity', '' + contentcontainerbgtrans[index] );
-					$('div[tid="' + value + '"] .qv-object-content-container').css('filter', 'alpha(opacity='+ (contentcontainerbgtrans[index]* 100) +')');
-					
+
+
+                    // qv-object-content-container transparency
+
+                    $('div[tid="' + value + '"] .qv-object-content-container').css('opacity', '' + contentcontainerbgtrans[index]);
+                    $('div[tid="' + value + '"] .qv-object-content-container').css('filter', 'alpha(opacity=' + (contentcontainerbgtrans[index] * 100) + ')');
+
 
                     // content container
                     $('div[tid="' + value + '"] .qv-object-content-container').css('background-color', '' + contentcontainerbg[index]);
                     $('div[tid="' + value + '"] .qv-object-content-container').css('color', '' + contentcontainercolor[index]);
                     $('div[tid="' + value + '"] article').css('background-color', '' + contentcontainerbg[index]);
-					$('div[tid="' + value + '"] article').css('font-size', '' + objfontsize[index]);
-					$('div[tid="' + value + '"] .qv-object-content-container').css('font-size', '' + objfontsize[index]);
+                    $('div[tid="' + value + '"] article').css('font-size', '' + objfontsize[index]);
+                    $('div[tid="' + value + '"] .qv-object-content-container').css('font-size', '' + objfontsize[index]);
 
                     //console.log('div[tid="' + value + '"]'+border[index]);
 
-					// objtransparency
-					
-					$('div[tid="' + value + '"]').css('opacity', objtransparency[index] + "");
-					$('div[tid="' + value + '"]').css('filter', 'alpha(opacity='+ (objtransparency[index]* 100) +')');
+                    // objtransparency
+
+                    $('div[tid="' + value + '"]').css('opacity', objtransparency[index] + "");
+                    $('div[tid="' + value + '"]').css('filter', 'alpha(opacity=' + (objtransparency[index] * 100) + ')');
 
                     // border
                     $('div[tid="' + value + '"]').css('border', border[index] + "");
@@ -1113,34 +1436,34 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
 
                 $.each(table, function(index, value) {
 
-					if(pivottable[index]){
-						// for pivot
-						$('div[tid="' + value + '"] tbody tr th').css("background-color", tablebg[index]);
+                    if (pivottable[index]) {
+                        // for pivot
+                        $('div[tid="' + value + '"] tbody tr th').css("background-color", tablebg[index]);
 
-						$('div[tid="' + value + '"] tbody tr:even').css("background-color", eventrtable[index]);
-						$('div[tid="' + value + '"] tbody tr:odd').css("background-color", oddtrtable[index]);
-						// end
-					}
-					
+                        $('div[tid="' + value + '"] tbody tr:even').css("background-color", eventrtable[index]);
+                        $('div[tid="' + value + '"] tbody tr:odd').css("background-color", oddtrtable[index]);
+                        // end
+                    }
+
                     $('div[tid="' + value + '"] .qv-st-header-wrapper').css("background-color", tablebg[index]);
 
                     $('div[tid="' + value + '"] th .qv-st-value').css("color", tableth[index]);
-					
-					$('div[tid="' + value + '"] .qv-st-header-cell-search').css("color", tableth[index]);
+
+                    $('div[tid="' + value + '"] .qv-st-header-cell-search').css("color", tableth[index]);
 
                     $('div[tid="' + value + '"] th .qv-st-value').css("text-align", tablethaline[index]);
-					 
-					$('div[tid="' + value + '"] th .qv-st-value span').css("font-size", thfontsize[index]);
-					
-					$('div[tid="' + value + '"] td .qv-st-value span').css("font-size", tdfontsize[index]);
-					
-					
+
+                    $('div[tid="' + value + '"] th .qv-st-value span').css("font-size", thfontsize[index]);
+
+                    $('div[tid="' + value + '"] td .qv-st-value span').css("font-size", tdfontsize[index]);
+
+
 
                     $('div[tid="' + value + '"] th').hover(function() {
                         $(this).css("background-color", tablethhover[index]);
                     }, function() {
-                       $(this).css("background-color", tablebg[index]);
-					
+                        $(this).css("background-color", tablebg[index]);
+
                     });
 
                     if (columnwidthadjuster[index]) {
@@ -1148,10 +1471,10 @@ define(["qlik", "ng!$q", "underscore", "text!./style.css"],
                     } else {
                         $('div[tid="' + value + '"] .column-width-adjuster').css('display', '');
                     }
-					
+
                     $('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:even').css("background-color", eventrtable[index]);
                     $('div[tid="' + value + '"] div[tid="qv-st-data"] tbody tr:odd').css("background-color", oddtrtable[index]);
-					
+
                 });
 
                 // $element.html(objidtst);
