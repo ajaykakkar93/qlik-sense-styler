@@ -7,7 +7,7 @@
 <li>powerful styling options same as this version</li>
 	 <li> Styling Theme is applied to all qlik sense objects in the Sheet. </li>
 </ol>
-
+<Hr>
 
 <h2>Why Do We need CSS for styling?</h2>
 <ol>
