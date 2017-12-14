@@ -1,6 +1,6 @@
 # qlik-sense-styler
-<H2>Hi everyone there is an exciting update with my new extension QS STYLER LITE (I AN GOING TO ADD IT IN BRANCH AND ALL THE FURTHER UPDATES WILL BE GOVEN TO NEW EXTENSION) <\H2>
-<H3>Advantage's. <\H3>
+<H2>Hi everyone there is an exciting update with my new extension QS STYLER LITE (I AN GOING TO ADD IT IN BRANCH AND ALL THE FURTHER UPDATES WILL BE GOVEN TO NEW EXTENSION)  </h2>
+<H3>Advantage's.  </H3>
 <ol>
 	 <li>Qlik Sense  3.2 supposed  </li>
 	<li>very lightweight extension</li>
