@@ -1,4 +1,13 @@
 # qlik-sense-styler
+<H2>Hi everyone there is an exciting update with my new extension QS STYLER LITE (I AN GOING TO ADD IT IN BRANCH AND ALL THE FURTHER UPDATES WILL BE GOVEN TO NEW EXTENSION, 3.2+ VERSIONS ARE SUPPORTED.<\h2>
+<H3>Advantage's<\h3>
+<ol>
+	 <li>Qlik Sense  3.2 supposed  </li>
+	<li>very lightweight extension</li>
+<li>powerful styling options same as this version</li>
+	 <li> Styling Theme is applied to all qlik sense objects in the Sheet. </li>
+</ol>
+
 
 <h2>Why Do We need CSS for styling?</h2>
 <ol>
