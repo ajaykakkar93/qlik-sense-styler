@@ -1,12 +1,20 @@
 # qlik-sense-styler
 <H2>Hi everyone there is an exciting update with my new extension QS STYLER LITE (I AM GOING TO ADD IT IN BRANCH AND ALL THE FURTHER UPDATES WILL BE GIVEN TO NEW EXTENSION)  </h2>
-<H3>Advantage's.  </H3>
+
+<h3>
+Reason : newer version of qlik is not supported and lot of users are using old version of qlik sense i want to keep this extension for them
+</h3>
+
+<H3>Advantage's in QS Styler Lite.  </H3>
 <ol>
-	 <li>Qlik Sense  3.2 supposed  </li>
+	<li>Qlik Sense  3.2 , June, September, November versions are supposed  </li>
 	<li>very lightweight extension</li>
-<li>powerful styling options same as this version</li>
-	 <li> Styling Theme is applied to all qlik sense objects in the Sheet. </li>
+	<li>powerful styling options same as this version</li>
+	<li> Styling Theme is applied to all qlik sense objects in the Sheet. </li>
 </ol>
+
+<p style="color:red;">This will be released by end of this year with all the same and some additional features wich will improve the look and feel of Qlik Sense Sheets </p>
+
 <Hr>
 
 <h2>Why Do We need CSS for styling?</h2>
