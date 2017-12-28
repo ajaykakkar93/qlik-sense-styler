@@ -13,6 +13,8 @@ Reason : newer version of qlik is not supported and lot of users are using old v
 	<li> Styling Theme is applied to all qlik sense objects in the Sheet. </li>
 </ol>
 
+<a target="_blank" href="https://github.com/ajaykakkar93/QlikSense-Sheet-Styler-Lite/">Qlik Sense Styler Lite Download</a>
+
 <p style="color:red;">This will be released by end of this year with all the same and some additional features wich will improve the look and feel of Qlik Sense Sheets </p>
 
 <Hr>
